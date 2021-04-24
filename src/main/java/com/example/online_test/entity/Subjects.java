@@ -38,7 +38,7 @@ public class Subjects implements Serializable {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     @Basic(fetch = FetchType.LAZY)
-    private List<Map<Subjects,List<Subjects>>> parentsSecond;
+    private List<Map<Subjects, List<Subjects>>> parentsSecond;
 
     @OneToMany()
     private List<Subjects> parentsFirst;
