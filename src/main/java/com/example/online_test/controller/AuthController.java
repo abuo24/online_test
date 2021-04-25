@@ -44,18 +44,8 @@ public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    JwtUtils jwtUtils;
-//
-//    @Autowired
-//    AuthTokenFilter authTokenFilter;
-
     @Autowired
     private JwtTokenProvider jwtProvider;
-
-//    @Autowired
-//    AuthenticationManager authenticationManager;
-
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequest loginVM) {
@@ -79,32 +69,8 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity getUser(HttpServletRequest request) {
-//        userRepo.findByUsername(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(req)))
-        Optional<User> user = userRepository.findByPhoneNumber(jwtProvider.getUser(jwtProvider.resolveToken(request)));
+      Optional<User> user = userRepository.findByPhoneNumber(jwtProvider.getUser(jwtProvider.resolveToken(request)));
         return user.isPresent()? ResponseEntity.ok(new ResultSucces(true, user.get())) : (new ResponseEntity(new Result(false, "token is invalid"), BAD_REQUEST));
     }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<?> signin(@RequestBody LoginRequest loginRequest){
-//        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getPhoneNumber(), loginRequest.getPassword()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String jwt=jwtUtils.generateJwtToken(authentication);
-//
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//        List<String> roles=userDetails.getAuthorities().stream().map(
-//                item -> item.getAuthority()).collect(Collectors.toList());
-//        Map<Object, Object> map = new HashMap<>();
-//        map.put("succes", true);
-//        map.put("username", loginRequest.getPhoneNumber());
-//        map.put("token", jwt);
-//        return ResponseEntity.ok(map);
-//    }
-//
-//    @GetMapping("/me")
-//    public ResponseEntity getUser(HttpServletRequest request) {
-//        Optional<User> user = userRepository.findByPhoneNumber(jwtUtils.getPhoneNumberFromJwtToken(authTokenFilter.parseJwt(request)));
-//        return user!=null? ResponseEntity.ok(new ResultSucces(true, user.get())) : (new ResponseEntity(new Result(false, "token is invalid"), BAD_REQUEST));
-//    }
 
 }
