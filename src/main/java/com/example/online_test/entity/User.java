@@ -38,6 +38,9 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String phoneNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Groups groups;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",

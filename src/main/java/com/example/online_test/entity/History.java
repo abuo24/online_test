@@ -31,6 +31,8 @@ public class History implements Serializable  {
 
     @Column(nullable = false)
     private Double ball;
+    @Column(nullable = false)
+    private Double percent ;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)
