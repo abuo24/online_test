@@ -20,9 +20,8 @@ public class Answer implements Serializable {
     @GeneratedValue(generator = "uuid")
     private String id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10000)
     private String title;
-
 
 
 }

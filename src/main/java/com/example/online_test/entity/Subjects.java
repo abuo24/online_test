@@ -42,7 +42,7 @@ public class Subjects implements Serializable {
     private List<Map<Subjects, List<Subjects>>> parentsSecond;
 
 
-    @OneToMany()
+    @OneToMany
     private List<Subjects> parentsFirst;
 
 }
