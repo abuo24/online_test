@@ -31,7 +31,6 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
     @Autowired
     AuthenticationManager authenticationManager;
 
