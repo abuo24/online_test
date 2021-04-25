@@ -23,6 +23,4 @@ public class Quiz implements Serializable {
     @OneToOne
     private Subjects subjects;
 
-
-
 }

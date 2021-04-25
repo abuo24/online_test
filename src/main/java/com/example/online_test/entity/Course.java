@@ -9,17 +9,17 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.security.auth.Subject;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-@Entity(name = "users")
-public class User implements Serializable {
+@Entity
+public class Course implements Serializable {
 
     @Id
     @GenericGenerator(name = "uuid",strategy = "uuid2")
@@ -27,23 +27,27 @@ public class User implements Serializable {
     private String id;
 
     @Column(nullable = false)
-    private String first_name;
+    private String titleUz;
 
     @Column(nullable = false)
-    private String last_name;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String phoneNumber;
-
+    private String titleRu;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    @JoinTable(name = "course_subjects",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private List<Subjects> subjects;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "course_group",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private List<Groups> groups;
+    @Column(nullable = false)
+    private String descriptionUz;
+
+    @Column(nullable = false)
+    private String descriptionRu;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)

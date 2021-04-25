@@ -30,8 +30,6 @@ public class Blog implements Serializable {
     @Column(nullable = false)
     private String titleRu;
 
-
-
     @Column(nullable = false, length = 100000)
     private String contentUz;
 

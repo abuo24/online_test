@@ -23,7 +23,6 @@ public class Answer implements Serializable {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne
-    private Question question;
+
 
 }

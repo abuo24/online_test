@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.security.auth.Subject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class Subjects implements Serializable {
     @Column(columnDefinition = "jsonb")
     @Basic(fetch = FetchType.LAZY)
     private List<Map<Subjects, List<Subjects>>> parentsSecond;
+
 
     @OneToMany()
     private List<Subjects> parentsFirst;

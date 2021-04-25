@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -36,37 +34,37 @@ public class DataLoader implements CommandLineRunner {
 
         if (initMode.equalsIgnoreCase("always")){
 
-            Role adminRole=new Role();
-            adminRole.setName("ROLE_ADMIN");
+        Role adminRole = new Role();
+        adminRole.setName("ROLE_ADMIN");
 
-            roleRepository.save(adminRole);
+        roleRepository.save(adminRole);
 
-            Role mentorRole=new Role();
-            mentorRole.setName("ROLE_MENTOR");
-            roleRepository.save(mentorRole);
+        Role mentorRole = new Role();
+        mentorRole.setName("ROLE_MENTOR");
+        roleRepository.save(mentorRole);
 
-            User adminUser=new User();
-            adminUser.setFirst_name("Admin");
-            adminUser.setPassword(passwordEncoder.encode("admin123"));
-            adminUser.setLast_name("Super admin");
-            adminUser.setPhoneNumber("+998937641464");
-            adminUser.setRoles(new ArrayList<Role>(){{
-                add(adminRole);
-                add(mentorRole);
-            }});
-            userRepository.save(adminUser);
+        User adminUser = new User();
+        adminUser.setFirst_name("Admin");
+        adminUser.setPassword(passwordEncoder.encode("admin123"));
+        adminUser.setLast_name("Super admin");
+        adminUser.setPhoneNumber("+998937641464");
+        adminUser.setRoles(new ArrayList<Role>() {{
+            add(adminRole);
+            add(mentorRole);
+        }});
+        userRepository.save(adminUser);
 
-            User mentorUser=new User();
-            mentorUser.setLast_name("Super mentor");
-            mentorUser.setPassword(passwordEncoder.encode("mentor123"));
-            mentorUser.setFirst_name("Mentor");
-            mentorUser.setPhoneNumber("+998932099924");
-            mentorUser.setRoles(new ArrayList<Role>(){{
-                add(mentorRole);
-            }});
-            userRepository.save(mentorUser);
-        }
+        User mentorUser = new User();
+        mentorUser.setLast_name("Super mentor");
+        mentorUser.setPassword(passwordEncoder.encode("mentor123"));
+        mentorUser.setFirst_name("Mentor");
+        mentorUser.setPhoneNumber("+998932099924");
+        mentorUser.setRoles(new ArrayList<Role>() {{
+            add(mentorRole);
+        }});
+        userRepository.save(mentorUser);
+    }
     }
 
-
 }
+

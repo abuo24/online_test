@@ -1,5 +1,6 @@
 package com.example.online_test.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,43 +13,33 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-@Entity(name = "users")
-public class User implements Serializable {
+@Entity
 
+public class Groups implements Serializable {
     @Id
     @GenericGenerator(name = "uuid",strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
     private String id;
 
     @Column(nullable = false)
-    private String first_name;
+    private String name;
 
-    @Column(nullable = false)
-    private String last_name;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String phoneNumber;
-
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "group_users",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Date createAt;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = true)
     @UpdateTimestamp

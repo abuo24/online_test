@@ -8,7 +8,9 @@ import com.example.online_test.payload.JwtResponse;
 import com.example.online_test.payload.LoginRequest;
 import com.example.online_test.repository.RoleRepository;
 import com.example.online_test.repository.UserRepository;
-import com.example.online_test.security.JwtUtils;
+
+import com.example.online_test.security.JwtTokenProvider;
+
 import com.example.online_test.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,36 +44,67 @@ public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+//    @Autowired
+//    JwtUtils jwtUtils;
+//
+//    @Autowired
+//    AuthTokenFilter authTokenFilter;
+
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtTokenProvider jwtProvider;
+
+//    @Autowired
+//    AuthenticationManager authenticationManager;
+
 
     @PostMapping("/login")
-    public ResponseEntity<?> signin(@RequestBody LoginRequest loginRequest){
-        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getPhoneNumber(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt=jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles=userDetails.getAuthorities().stream().map(
-                item -> item.getAuthority()).collect(Collectors.toList());
-        return new ResponseEntity<>(new JwtResponse(
-                jwt,
-                userDetails.getId(),
-                userDetails.getFirstName(),
-                userDetails.getLastName(),
-                userDetails.getPassword(),
-                userDetails.getPhoneNumber(),
-                roles
-        ), HttpStatus.OK);
+    public ResponseEntity login(@RequestBody LoginRequest loginVM) {
+        Optional<User> user = userRepository.findByPhoneNumber(loginVM.getPhoneNumber());
+        if (!user.isPresent()) {
+            return new ResponseEntity(new Result(false, "User not available"), BAD_REQUEST);
+        }
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginVM.getPhoneNumber(), loginVM.getPassword()));
+            Set<Role> roleList = new HashSet<>(user.get().getRoles());
+            String token = jwtProvider.createToken(user.get().getPhoneNumber(),roleList);
+            Map<Object, Object> map = new HashMap<>();
+            map.put("succes", true);
+            map.put("phoneNumber", user.get().getPhoneNumber());
+            map.put("token", token);
+            return ResponseEntity.ok(map);
+        } catch (Exception e) {
+            return new ResponseEntity(new Result(false, e.getLocalizedMessage()), BAD_REQUEST);
+        }
     }
 
-//
-//    @GetMapping("/getme")
-//    public ResponseEntity getUser(HttpServletRequest request) {
-//        User user = userRepository.findByPhoneNumber(jwtProvider.getUser(jwtProvider.resolveToken(request)));
-//        return user!=null? ResponseEntity.ok(new ResultSucces(true, user)) : (new ResponseEntity(new Result(false, "token is invalid"), BAD_REQUEST));
-//    }
+    @GetMapping("/me")
+    public ResponseEntity getUser(HttpServletRequest request) {
+//        userRepo.findByUsername(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(req)))
+        Optional<User> user = userRepository.findByPhoneNumber(jwtProvider.getUser(jwtProvider.resolveToken(request)));
+        return user.isPresent()? ResponseEntity.ok(new ResultSucces(true, user.get())) : (new ResponseEntity(new Result(false, "token is invalid"), BAD_REQUEST));
+    }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<?> signin(@RequestBody LoginRequest loginRequest){
+//        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getPhoneNumber(), loginRequest.getPassword()));
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        String jwt=jwtUtils.generateJwtToken(authentication);
+//
+//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+//        List<String> roles=userDetails.getAuthorities().stream().map(
+//                item -> item.getAuthority()).collect(Collectors.toList());
+//        Map<Object, Object> map = new HashMap<>();
+//        map.put("succes", true);
+//        map.put("username", loginRequest.getPhoneNumber());
+//        map.put("token", jwt);
+//        return ResponseEntity.ok(map);
+//    }
+//
+//    @GetMapping("/me")
+//    public ResponseEntity getUser(HttpServletRequest request) {
+//        Optional<User> user = userRepository.findByPhoneNumber(jwtUtils.getPhoneNumberFromJwtToken(authTokenFilter.parseJwt(request)));
+//        return user!=null? ResponseEntity.ok(new ResultSucces(true, user.get())) : (new ResponseEntity(new Result(false, "token is invalid"), BAD_REQUEST));
+//    }
 
 }

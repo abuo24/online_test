@@ -15,5 +15,18 @@ import javax.persistence.Entity;
 public class Teacher extends User {
 
     @Column()
-    private String social;
+    private String telegram;
+
+    @Column()
+    private String instagram;
+
+    @Column()
+    private String facebook;
+
+    @Column()
+    private String bioUz;
+
+    @Column()
+    private String bioRu;
+
 }
