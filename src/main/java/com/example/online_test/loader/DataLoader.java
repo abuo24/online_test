@@ -67,6 +67,19 @@ public class DataLoader implements CommandLineRunner {
         }});
         userRepository.save(mentorUser);
     }
+        Role userRole=new Role();
+        userRole.setName("ROLE_USER");
+        roleRepository.save(userRole);
+
+        User user=new User();
+        user.setFirst_name("User");
+        user.setLast_name("Super user");
+        user.setPhoneNumber("+998901234567");
+        user.setPassword(passwordEncoder.encode("user123"));
+        user.setRoles(new ArrayList<Role>(){{
+            add(userRole);
+        }});
+        userRepository.save(user);
     }
 
 }
