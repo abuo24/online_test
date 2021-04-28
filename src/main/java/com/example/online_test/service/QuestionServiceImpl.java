@@ -45,14 +45,59 @@ public class QuestionServiceImpl implements QuestionService {
             List<Answer> answerList = new ArrayList<>();
             Answer answer = null;
             String id = "";
-            answerRequests.forEach(item -> {
-                if (item.isCorrect()) {
-                    id.concat(item.getId());
+            for (int i = 0; i < answerRequests.size(); i++) {
+                if (answerRequests.get(i).isCorrect()) {
+                    id=answerRequests.get(i).getId();
                 }
-                answerList.add(answerRepository.getOne(item.getId()));
-            });
+                answerList.add(answerRepository.getOne(answerRequests.get(i).getId()));
+            }question1.setAnswer(answerList);
+            question1.setCorrectAnswerId(id);
+            return questionRepository.save(question1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    @Override
+    public Question editByAnswersList(String qId,QuestionRequest question) {
+        try {
+            Question question1 = questionRepository.getOne(qId);
+            if (question == null) {
+                return null;
+            }
+            question1.setQuestion(question.getQuestion());
+            question1.setSubjects(subjectsRepository.findById(question.getSubjectId()).get());
+            if (question.getAnswers().isEmpty()) {
+                return null;
+            }
+            List<AnswerRequest> answerRequests = answerService.createAll(question.getAnswers());
+            List<Answer> answerList = new ArrayList<>();
+            Answer answer = null;
+            String id = "";
+            for (int i = 0; i < answerRequests.size(); i++) {
+                if (answerRequests.get(i).isCorrect()) {
+                    id=answerRequests.get(i).getId();
+                }
+                answerList.add(answerRepository.getOne(answerRequests.get(i).getId()));
+            }
             question1.setAnswer(answerList);
-            question1.setCorrectAnswer(answerRepository.getOne(id));
+            question1.setCorrectAnswerId(id);
+            return questionRepository.save(question1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Question editSubjectsAndTitle(String id,String subjectId, String  q) {
+        try {
+            Question question1 = questionRepository.getOne(id);
+            if (question1 == null) {
+                return null;
+            }
+            question1.setQuestion(q);
+            question1.setSubjects(subjectsRepository.findById(subjectId).get());
             return questionRepository.save(question1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -69,14 +114,23 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return null;
     }
+    @Override
+    public List<Question> getAllQuestionsListByCreateDesc() {
+        try {
+            return questionRepository.findAllByOrderByCreateAtDesc();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     @Override
-    public Page<Question> getRandomQuestionListBySubjectId(String subjectId) {
+    public List<Question> getRandomQuestionListBySubjectId(String subjectId) {
         try {
             Long qty = questionRepository.countAllBySubjectsId(subjectId);
             int idx = (int) (Math.random() * qty/30);
             Pageable paging = PageRequest.of(idx, 30);
-            Page<Question> questionPage = questionRepository.findAllBySubjectsId(subjectId, paging);
+            List<Question> questionPage = questionRepository.findAllBySubjectsId(subjectId, paging);
             return questionPage;
         } catch (Exception e) {
             System.out.println(e.getMessage());

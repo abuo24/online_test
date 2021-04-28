@@ -40,6 +40,23 @@ public class AnswerServiceImpl implements AnswerService {
         }
         return null;
     }
+    @Override
+    public Answer edit(String id, String answer) {
+        try {
+            Answer answer1 =answerRepository.getOne(id);
+            if (answer == null) {
+                return null;
+            }
+            if (answer1 == null) {
+                return null;
+            }
+            answer1.setTitle(answer);
+            return answerRepository.save(answer1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     @Override
     public List<AnswerRequest> createAll(List<AnswerRequest> answers) {
@@ -52,19 +69,23 @@ public class AnswerServiceImpl implements AnswerService {
             }
             List<AnswerRequest> list = new ArrayList<>();
 
-            for (int i = 0; i < answers.size(); i++) {
+            for(int i = 0; i < answers.size(); i++) {
+                answerRequest = new AnswerRequest();
+                answer2 = new Answer();
                 answer2.setTitle(answers.get(i).getTitle());
                 answer1 = create(answer2);
                 if (answer1 != null) {
                     if (answers.get(i).isCorrect()) {
                         answerRequest.setCorrect(true);
+                    } else {
+                        answerRequest.setCorrect(false);
                     }
-                    answerRequest.setId(answers.get(i).getId());
+                    answerRequest.setTitle(answers.get(i).getTitle());
+                    answerRequest.setId(answer1.getId());
                     list.add(answerRequest);
                 }
             }
             return list;
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -75,6 +96,16 @@ public class AnswerServiceImpl implements AnswerService {
     public boolean delete(List<Answer> answers) {
         try {
             answerRepository.deleteAll(answers);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    @Override
+    public boolean deleteById(String answers) {
+        try {
+            answerRepository.deleteById(answers);
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());

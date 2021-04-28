@@ -13,7 +13,8 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, String> {
 
     List<Question> findAllBySubjectsId(String subjectId);
-    Page<Question> findAllBySubjectsId(String subjectId,
+    List<Question> findAllByOrderByCreateAtDesc();
+    List<Question> findAllBySubjectsId(String subjectId,
                                        Pageable pageable);
     Long countAllBySubjectsId(String subjectId);
 }

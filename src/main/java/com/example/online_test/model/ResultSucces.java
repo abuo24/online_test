@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResultSucces {
 
-    private Boolean status;
+    private Boolean succes;
 
     private Object data;
 

@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -29,10 +30,34 @@ public class History implements Serializable  {
     @OneToOne
     private Blok blok;
 
-    @Column(nullable = false)
-    private Double ball;
-    @Column(nullable = false)
-    private Double percent ;
+    private Double ballAll;
+
+    private Double percentAll;
+
+    private int countAll;
+
+    private Double ballFirst;
+
+    private Double percentFirst;
+
+    private int countFirst;
+
+    private Double ballSecond;
+
+    private Double percentSecond;
+
+    private int countSecond;
+
+    private Double ballThird;
+
+    private String spentTime;
+
+    @OneToMany
+    private List<HistorySavedAnswers> historySavedAnswers;
+
+    private int countThird;
+
+    private Double percentThird;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)
@@ -43,8 +68,6 @@ public class History implements Serializable  {
     @Column(nullable = false, updatable = true)
     @UpdateTimestamp
     private Date updateAt;
-
-
 }
 
 

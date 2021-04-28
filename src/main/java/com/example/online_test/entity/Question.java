@@ -1,12 +1,16 @@
 package com.example.online_test.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -14,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Question implements Serializable {
 
     @Id
@@ -21,7 +26,7 @@ public class Question implements Serializable {
     @GeneratedValue(generator = "uuid")
     private String id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10000)
     private String question;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -30,9 +35,15 @@ public class Question implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "answers_id"))
     private List<Answer> answer;
 
-    @OneToOne
-    private Answer correctAnswer;
+    @Column
+    private String correctAnswerId;
 
     @ManyToOne
     private Subjects subjects;
+
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private Date createAt;
 }

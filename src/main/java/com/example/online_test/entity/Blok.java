@@ -1,6 +1,7 @@
 package com.example.online_test.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
 @Entity
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Blok implements Serializable {
 
     @Id
@@ -25,13 +30,25 @@ public class Blok implements Serializable {
     private String id;
 
     @OneToOne
-    private Quiz blok1;
+    private Subjects blokFirst;
 
     @OneToOne
-    private Quiz blok2;
+    private Subjects blokSecond;
 
     @OneToOne
-    private Quiz blok3;
+    private Subjects blokThird;
+
+    @OneToMany
+    private List<Question> questionFirstList;
+
+    @OneToMany
+    private List<Question> questionSecondList;
+
+    @OneToMany
+    private List<Question> questionThirdList;
+
+    @OneToOne
+    private User user;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)
@@ -39,9 +56,6 @@ public class Blok implements Serializable {
     private Date createAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
-    @Column(nullable = false, updatable = true)
-    @UpdateTimestamp
+    @Column(nullable = true,updatable = true)
     private Date finalDate;
-
-
 }

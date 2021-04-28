@@ -2,6 +2,7 @@ package com.example.online_test.config;
 
 //import com.example.online_test.security.AuthEntryPointJwt;
 //import com.example.online_test.security.AuthTokenFilter;
+
 import com.example.online_test.security.JwtAuthenticationEntryPoint;
 import com.example.online_test.security.JwtConfigurer;
 import com.example.online_test.security.JwtTokenFilter;
@@ -74,9 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        "/api/auth/login","/api/auth/me").permitAll()
-                .antMatchers("/api/auth/test").hasAnyAuthority("ROLE_MENTOR")
+                .antMatchers("/swagger-ui.html","/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

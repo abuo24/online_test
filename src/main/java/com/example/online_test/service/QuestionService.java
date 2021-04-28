@@ -11,5 +11,8 @@ public interface QuestionService {
     public Question create(QuestionRequest question);
     public List<Question> getAllQuestionsListBySubjectId(String subjectId);
     public boolean delete(String questionId);
-    public Page<Question> getRandomQuestionListBySubjectId(String subjectId);
+    public List<Question> getAllQuestionsListByCreateDesc();
+    public Question editByAnswersList(String qId, QuestionRequest question);
+    public List<Question> getRandomQuestionListBySubjectId(String subjectId);
+    public Question editSubjectsAndTitle(String id,String subjectId, String  q);
 }

@@ -1,5 +1,7 @@
 package com.example.online_test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +21,9 @@ import java.util.Map;
 @AllArgsConstructor
 @Table
 @Entity
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Subjects implements Serializable {
 
     @Id
@@ -33,16 +37,11 @@ public class Subjects implements Serializable {
     @Column(nullable = false)
     private String nameRu;
 
-    @OneToMany
-    private List<Question> questionList;
+    @ManyToMany
+    @JsonIgnore
+    private List<SubHelp> parentsSecond;
 
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
-    @Basic(fetch = FetchType.LAZY)
-    private List<Map<Subjects, List<Subjects>>> parentsSecond;
-
-
-    @OneToMany
+    @ManyToMany
     private List<Subjects> parentsFirst;
 
 }

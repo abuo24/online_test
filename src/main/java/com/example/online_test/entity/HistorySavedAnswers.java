@@ -1,29 +1,33 @@
 package com.example.online_test.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
-public class Answer implements Serializable {
+@Table
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class HistorySavedAnswers implements Serializable {
 
     @Id
     @GenericGenerator(name = "uuid",strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
     private String id;
 
-    @Column(nullable = false, length = 10000)
-    private String title;
+    private String questionId;
+
+    private String correctAnswerId;
+
+    private String selectedId;
 
 }
