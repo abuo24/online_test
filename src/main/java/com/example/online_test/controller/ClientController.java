@@ -11,10 +11,7 @@ import com.example.online_test.repository.AttachmentRepository;
 import com.example.online_test.repository.UserRepository;
 import com.example.online_test.security.JwtTokenFilter;
 import com.example.online_test.security.JwtTokenProvider;
-import com.example.online_test.service.AttachmentService;
-import com.example.online_test.service.BlokService;
-import com.example.online_test.service.SubjectServiceImpl;
-import com.example.online_test.service.SubjectsService;
+import com.example.online_test.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileUrlResource;
@@ -49,6 +46,8 @@ public class ClientController {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     BlokService blokService;
+    @Autowired
+    RouteService routeService;
     @Value("${upload.folder}")
     private String uploadFolder;
 
@@ -105,6 +104,22 @@ public class ClientController {
         }
         return ResponseEntity.ok(blokService.verifyAllTests(user.getId(), blokId,verifingRequest));
     }
+
+    @GetMapping("/route/{id}")
+    public ResponseEntity getRouteById(@PathVariable String id){
+        return  routeService.getOneById(id)!=null?ResponseEntity.ok(new ResultSucces(true, routeService.getOneById(id))):new ResponseEntity(new Result(false,"not found route"),HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/routes/{subFirstId}")
+    public ResponseEntity getRoutesByFirstSubjectIdAndSecondSubjectIdAndThirdSubjectId(@PathVariable String subFirstId, @RequestParam(defaultValue = "") String subjectSecondId, @RequestParam(defaultValue = "") String subjectThirdId){
+        if (subjectSecondId.equals("")){
+            return  routeService.getRoutesByFirstSubjectId(subFirstId)!=null?ResponseEntity.ok(new ResultSucces(true, routeService.getRoutesByFirstSubjectId(subFirstId))):new ResponseEntity(new Result(false,"not found route"),HttpStatus.BAD_REQUEST);
+        }
+        if (subjectThirdId.equals("")){
+            return  routeService.getRoutesByFirstSubjectIdAndSecondSubjectIds(subFirstId, subjectSecondId)!=null?ResponseEntity.ok(new ResultSucces(true, routeService.getRoutesByFirstSubjectIdAndSecondSubjectIds(subFirstId, subjectSecondId))):new ResponseEntity(new Result(false,"not found route"),HttpStatus.BAD_REQUEST);
+        }
+        return  routeService.getRoutesByFirstSubjectIdAndSecondSubjectIdAndThirdSubjectIds(subFirstId, subjectSecondId, subjectThirdId)!=null?ResponseEntity.ok(new ResultSucces(true, routeService.getRoutesByFirstSubjectIdAndSecondSubjectIdAndThirdSubjectIds(subFirstId, subjectSecondId, subjectThirdId))):new ResponseEntity(new Result(false,"not found route"),HttpStatus.BAD_REQUEST);
+    }
+
 
 
 

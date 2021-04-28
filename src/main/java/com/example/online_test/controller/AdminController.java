@@ -4,6 +4,7 @@ import com.example.online_test.model.ResultSucces;
 import com.example.online_test.model.Result;
 import com.example.online_test.payload.QuestionRequest;
 import com.example.online_test.payload.ReqUser;
+import com.example.online_test.payload.RouteRequest;
 import com.example.online_test.payload.SubjectRequest;
 import com.example.online_test.repository.AttachmentRepository;
 import com.example.online_test.service.*;
@@ -29,6 +30,8 @@ public class AdminController {
 
     @Autowired
     private AnswerService answerService;
+   @Autowired
+    private RouteService routeService;
 
     @GetMapping("/user/all")
     public HttpEntity<?> getUSerList(){
@@ -108,4 +111,20 @@ public class AdminController {
         attachmentService.save(multipartFile);
         return ResponseEntity.ok(multipartFile.getOriginalFilename()+" file saqlandi");
     }
+
+
+    @PostMapping("/route/add")
+    public ResponseEntity createRoute(@RequestBody RouteRequest routeRequest){
+        return ResponseEntity.ok(new ResultSucces(true,routeService.create(routeRequest)));
+    }
+    @PutMapping("/route/{routeId}")
+    public ResponseEntity editRoute(@PathVariable String routeId,@RequestBody RouteRequest routeRequest){
+        return ResponseEntity.ok(new ResultSucces(true,routeService.edit(routeId, routeRequest)));
+    }
+    @DeleteMapping("/route/{routeId}")
+    public ResponseEntity delRoute(@PathVariable String routeId){
+        return routeService.delete(routeId)?ResponseEntity.ok(new ResultSucces(true,"deleted")): new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
+    }
+
+
 }
