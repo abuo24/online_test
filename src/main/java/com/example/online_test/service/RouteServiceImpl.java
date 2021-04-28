@@ -23,13 +23,16 @@ public class RouteServiceImpl implements RouteService {
     @Autowired
     UniversityRepository universityRepository;
 
+    @Autowired
+    SubjectsRepository subjectsRepository;
+
     @Override
     public Route create(RouteRequest routeRequest) {
         try {
             Route route = new Route();
-            route.setSubjectFirst(routeRequest.getSubjectFirst());
-            route.setSubjectSecond(routeRequest.getSubjectSecond());
-            route.setSubjectThird(routeRequest.getSubjectThird());
+            route.setSubjectFirst(subjectsRepository.getOne(routeRequest.getSubjectFirst()));
+            route.setSubjectSecond(subjectsRepository.getOne(routeRequest.getSubjectSecond()));
+            route.setSubjectThird(subjectsRepository.getOne(routeRequest.getSubjectThird()));
             route.setName(routeRequest.getName());
             route.setUniversity(universityRepository.findById(routeRequest.getUniversityId()).get());
 
@@ -47,9 +50,9 @@ public class RouteServiceImpl implements RouteService {
             if (route == null) {
                 return null;
             }
-            route.setSubjectFirst(routeRequest.getSubjectFirst());
-            route.setSubjectSecond(routeRequest.getSubjectSecond());
-            route.setSubjectThird(routeRequest.getSubjectThird());
+            route.setSubjectFirst(subjectsRepository.getOne(routeRequest.getSubjectFirst()));
+            route.setSubjectSecond(subjectsRepository.getOne(routeRequest.getSubjectSecond()));
+            route.setSubjectThird(subjectsRepository.getOne(routeRequest.getSubjectThird()));
             route.setName(routeRequest.getName());
             route.setUniversity(universityRepository.findById(routeRequest.getUniversityId()).get());
 

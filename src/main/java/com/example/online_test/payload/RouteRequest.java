@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 public class RouteRequest {
     private String name;
 
-    private Subjects subjectFirst;
+    private String subjectFirst;
 
-    private Subjects subjectSecond;
+    private String subjectSecond;
 
-    private Subjects subjectThird;
+    private String subjectThird;
 
     private String universityId;
 }
