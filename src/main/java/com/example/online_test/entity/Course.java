@@ -32,17 +32,14 @@ public class Course implements Serializable {
     @Column(nullable = false)
     private String titleRu;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "course_subjects",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private List<Subjects> subjects;
+    private Integer durationTime;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "course_group",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private List<Groups> groups;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "course_subjects",
+//            joinColumns = @JoinColumn(name = "course_id"),
+//            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+//    private List<Subjects> subjects;
+
     @Column(nullable = false)
     private String descriptionUz;
 
@@ -53,6 +50,7 @@ public class Course implements Serializable {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Date createAt;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = true)
     @UpdateTimestamp

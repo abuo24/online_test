@@ -1,10 +1,9 @@
 package com.example.online_test.controller;
 
 import com.example.online_test.payload.ReqUser;
-import com.example.online_test.service.UserServiceImpl;
+import com.example.online_test.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +30,6 @@ public class AdminController {
     public HttpEntity<?> deleteUser(@PathVariable String id){
         return ResponseEntity.ok(userService.deleteUser(id));
     }
-
 
 
 

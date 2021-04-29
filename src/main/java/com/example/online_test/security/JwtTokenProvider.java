@@ -1,9 +1,8 @@
 package com.example.online_test.security;
 
 import com.example.online_test.entity.Role;
-import com.example.online_test.entity.User;
 import com.example.online_test.repository.UserRepository;
-import com.example.online_test.service.UserDetailsServiceImpl;
+import com.example.online_test.serviceImpl.UserDetailsServiceImpl;
 //import com.news.update.entity.Role;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +20,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Optional;
 import java.util.Set;
 
 //import mechat.group.entity.Role;

@@ -1,18 +1,16 @@
-package com.example.online_test.service;
+package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.Answer;
-import com.example.online_test.entity.User;
 import com.example.online_test.payload.AnswerRequest;
 import com.example.online_test.repository.AnswerRepository;
 import com.example.online_test.repository.GroupsRepository;
 import com.example.online_test.repository.RoleRepository;
+import com.example.online_test.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
@@ -72,14 +70,12 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public boolean delete(List<Answer> answers) {
+    public void delete(List<Answer> answers) {
         try {
             answerRepository.deleteAll(answers);
-            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return false;
     }
 
 }

@@ -10,5 +10,6 @@ public interface AnswerService {
     public Answer create(Answer answer);
 
     public List<AnswerRequest> createAll(List<AnswerRequest> answers);
-    public boolean delete(List<Answer> answers);
+
+    public void delete(List<Answer> answers);
 }

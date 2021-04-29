@@ -41,8 +41,8 @@ public class Subjects implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     private List<Map<Subjects, List<Subjects>>> parentsSecond;
 
-
     @OneToMany
     private List<Subjects> parentsFirst;
+
 
 }

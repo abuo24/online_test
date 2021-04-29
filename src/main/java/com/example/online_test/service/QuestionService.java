@@ -12,4 +12,6 @@ public interface QuestionService {
     public List<Question> getAllQuestionsListBySubjectId(String subjectId);
     public boolean delete(String questionId);
     public Page<Question> getRandomQuestionListBySubjectId(String subjectId);
+
+
 }

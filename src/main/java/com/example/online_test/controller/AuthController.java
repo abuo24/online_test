@@ -13,6 +13,7 @@ import com.example.online_test.security.JwtTokenProvider;
 
 import com.example.online_test.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,10 +48,10 @@ public class AuthController {
     private JwtTokenProvider jwtProvider;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequest loginVM) {
+    public HttpEntity<?> login(@RequestBody LoginRequest loginVM) {
         Optional<User> user = userRepository.findByPhoneNumber(loginVM.getPhoneNumber());
         if (!user.isPresent()) {
-            return new ResponseEntity(new Result(false, "User not available"), BAD_REQUEST);
+            return new ResponseEntity<>(new Result(false, "User not found!"), HttpStatus.NOT_FOUND);
         }
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginVM.getPhoneNumber(), loginVM.getPassword()));
@@ -62,7 +63,7 @@ public class AuthController {
             map.put("token", token);
             return ResponseEntity.ok(map);
         } catch (Exception e) {
-            return new ResponseEntity(new Result(false, e.getLocalizedMessage()), BAD_REQUEST);
+            return new ResponseEntity<>(new Result(false, e.getLocalizedMessage()), BAD_REQUEST);
         }
     }
 

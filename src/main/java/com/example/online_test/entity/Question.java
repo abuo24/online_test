@@ -17,7 +17,7 @@ import java.util.List;
 public class Question implements Serializable {
 
     @Id
-    @GenericGenerator(name = "uuid",strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
     private String id;
 
@@ -25,7 +25,7 @@ public class Question implements Serializable {
     private String question;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "question_answerss",
+    @JoinTable(name = "question_answers",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "answers_id"))
     private List<Answer> answer;
@@ -35,4 +35,5 @@ public class Question implements Serializable {
 
     @ManyToOne
     private Subjects subjects;
+
 }

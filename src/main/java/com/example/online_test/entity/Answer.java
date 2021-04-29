@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +23,5 @@ public class Answer implements Serializable {
 
     @Column(nullable = false, length = 10000)
     private String title;
-
 
 }
