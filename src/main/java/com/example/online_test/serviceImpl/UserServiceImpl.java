@@ -1,4 +1,4 @@
-package com.example.online_test.service;
+package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.Role;
 import com.example.online_test.entity.User;
@@ -7,6 +7,7 @@ import com.example.online_test.payload.ReqUser;
 import com.example.online_test.repository.GroupsRepository;
 import com.example.online_test.repository.RoleRepository;
 import com.example.online_test.repository.UserRepository;
+import com.example.online_test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return new Result(true, "Successfully created user");
     }
-
     @Override
     public Result editUser(ReqUser reqUser, String id) {
         Optional<User> byId = userRepository.findById(id);

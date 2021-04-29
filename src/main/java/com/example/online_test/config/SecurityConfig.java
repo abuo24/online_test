@@ -7,7 +7,6 @@ import com.example.online_test.security.JwtAuthenticationEntryPoint;
 import com.example.online_test.security.JwtConfigurer;
 import com.example.online_test.security.JwtTokenFilter;
 import com.example.online_test.security.JwtTokenProvider;
-import com.example.online_test.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -76,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui.html","/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

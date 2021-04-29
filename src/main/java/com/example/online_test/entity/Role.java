@@ -23,6 +23,7 @@ public class Role implements GrantedAuthority {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
     private String id;
+
     @Column(nullable = false,unique = true)
     private String name;
 

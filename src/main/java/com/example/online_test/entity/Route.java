@@ -48,8 +48,11 @@ public class Route implements Serializable {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Date createAt;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = true)
     @UpdateTimestamp
     private Date updateAt;
+
+
 }

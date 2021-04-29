@@ -14,5 +14,6 @@ public interface AnswerService {
     public boolean deleteById(String answers);
 
     public List<AnswerRequest> createAll(List<AnswerRequest> answers);
-    public boolean delete(List<Answer> answers);
+
+    public void delete(List<Answer> answers);
 }

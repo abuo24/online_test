@@ -1,10 +1,12 @@
-package com.example.online_test.service;
+package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.Answer;
 import com.example.online_test.entity.Question;
 import com.example.online_test.payload.AnswerRequest;
 import com.example.online_test.payload.QuestionRequest;
 import com.example.online_test.repository.*;
+import com.example.online_test.service.AnswerService;
+import com.example.online_test.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

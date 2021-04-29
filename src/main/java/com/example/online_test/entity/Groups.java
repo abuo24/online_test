@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @Table
 @Entity
-
 public class Groups implements Serializable {
     @Id
     @GenericGenerator(name = "uuid",strategy = "uuid2")
