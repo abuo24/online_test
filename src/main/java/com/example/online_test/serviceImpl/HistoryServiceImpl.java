@@ -1,7 +1,8 @@
-package com.example.online_test.service;
+package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.History;
 import com.example.online_test.repository.HistoryRepository;
+import com.example.online_test.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

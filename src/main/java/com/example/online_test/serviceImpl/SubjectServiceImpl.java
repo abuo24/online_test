@@ -1,4 +1,4 @@
-package com.example.online_test.service;
+package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.Answer;
 import com.example.online_test.entity.Question;
@@ -11,6 +11,7 @@ import com.example.online_test.repository.AnswerRepository;
 import com.example.online_test.repository.QuestionRepository;
 import com.example.online_test.repository.SubHelpRepository;
 import com.example.online_test.repository.SubjectsRepository;
+import com.example.online_test.service.SubjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,10 +1,11 @@
-package com.example.online_test.service;
+package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.*;
 import com.example.online_test.entity.HistorySavedAnswers;
 import com.example.online_test.payload.BlokRequest;
 import com.example.online_test.payload.VerifingRequest;
 import com.example.online_test.repository.*;
+import com.example.online_test.service.BlokService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

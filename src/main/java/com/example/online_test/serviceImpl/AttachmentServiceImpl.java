@@ -1,8 +1,9 @@
-package com.example.online_test.service;
+package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.Attachment;
 import com.example.online_test.payload.FileResponse;
 import com.example.online_test.repository.AttachmentRepository;
+import com.example.online_test.service.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class AttachmentServiceImpl implements AttachmentService{
+public class AttachmentServiceImpl implements AttachmentService {
+
     @Autowired
     private AttachmentRepository attachmentRepository;
 

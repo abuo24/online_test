@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-@Entity
+@Entity(name = "course")
 public class Course implements Serializable {
 
     @Id
@@ -45,6 +45,10 @@ public class Course implements Serializable {
 
     @Column(nullable = false)
     private String descriptionRu;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attachment_id")
+    private Attachment attachment;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)
