@@ -33,7 +33,8 @@ public class AnswerServiceImpl implements AnswerService {
             if (answer == null) {
                 return null;
             }
-            answer.setTitle(answer.getTitle());
+            answer.setTitleRu(answer.getTitleRu());
+            answer.setTitleUz(answer.getTitleUz());
             return answerRepository.save(answer);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -50,7 +51,8 @@ public class AnswerServiceImpl implements AnswerService {
             if (answer1 == null) {
                 return null;
             }
-            answer1.setTitle(answer);
+            answer1.setTitleUz(answer);
+            answer1.setTitleRu(answer);
             return answerRepository.save(answer1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -72,7 +74,8 @@ public class AnswerServiceImpl implements AnswerService {
             for(int i = 0; i < answers.size(); i++) {
                 answerRequest = new AnswerRequest();
                 answer2 = new Answer();
-                answer2.setTitle(answers.get(i).getTitle());
+                answer2.setTitleRu(answers.get(i).getTitleRu());
+                answer2.setTitleUz(answers.get(i).getTitleUz());
                 answer1 = create(answer2);
                 if (answer1 != null) {
                     if (answers.get(i).isCorrect()) {
@@ -80,7 +83,8 @@ public class AnswerServiceImpl implements AnswerService {
                     } else {
                         answerRequest.setCorrect(false);
                     }
-                    answerRequest.setTitle(answers.get(i).getTitle());
+                    answerRequest.setTitleUz(answers.get(i).getTitleUz());
+                    answerRequest.setTitleRu(answers.get(i).getTitleRu());
                     answerRequest.setId(answer1.getId());
                     list.add(answerRequest);
                 }

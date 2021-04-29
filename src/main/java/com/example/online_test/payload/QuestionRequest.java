@@ -11,7 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionRequest {
-    private String question;
+    private String questionUz;
+    private String questionRu;
     private List<AnswerRequest> answers;
     private String subjectId;
 }

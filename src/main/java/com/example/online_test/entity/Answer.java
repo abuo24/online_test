@@ -24,6 +24,9 @@ public class Answer implements Serializable {
     private String id;
 
     @Column(nullable = false, length = 10000)
-    private String title;
+    private String titleUz;
+
+    @Column(nullable = false, length = 10000)
+    private String titleRu;
 
 }

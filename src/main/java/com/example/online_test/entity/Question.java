@@ -27,7 +27,9 @@ public class Question implements Serializable {
     private String id;
 
     @Column(nullable = false, length = 10000)
-    private String question;
+    private String questionRu;
+    @Column(nullable = false, length = 10000)
+    private String questionUz;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "question_answerss",

@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerRequest {
-    private String title;
+    private String titleUz;
+    private String titleRu;
     private String id;
     private boolean isCorrect;
 }

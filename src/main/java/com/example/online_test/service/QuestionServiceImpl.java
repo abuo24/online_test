@@ -36,7 +36,8 @@ public class QuestionServiceImpl implements QuestionService {
             if (question == null) {
                 return null;
             }
-            question1.setQuestion(question.getQuestion());
+            question1.setQuestionUz(question.getQuestionUz());
+            question1.setQuestionRu(question.getQuestionRu());
             question1.setSubjects(subjectsRepository.findById(question.getSubjectId()).get());
             if (question.getAnswers().isEmpty()) {
                 return null;
@@ -65,7 +66,8 @@ public class QuestionServiceImpl implements QuestionService {
             if (question == null) {
                 return null;
             }
-            question1.setQuestion(question.getQuestion());
+            question1.setQuestionRu(question.getQuestionRu());
+            question1.setQuestionUz(question.getQuestionUz());
             question1.setSubjects(subjectsRepository.findById(question.getSubjectId()).get());
             if (question.getAnswers().isEmpty()) {
                 return null;
@@ -90,13 +92,14 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question editSubjectsAndTitle(String id,String subjectId, String  q) {
+    public Question editSubjectsAndTitle(String id,String subjectId, String  q, String  uz) {
         try {
             Question question1 = questionRepository.getOne(id);
             if (question1 == null) {
                 return null;
             }
-            question1.setQuestion(q);
+            question1.setQuestionRu(q);
+            question1.setQuestionUz(uz);
             question1.setSubjects(subjectsRepository.findById(subjectId).get());
             return questionRepository.save(question1);
         } catch (Exception e) {

@@ -67,8 +67,8 @@ public class AdminController {
         return ResponseEntity.ok(new ResultSucces(true,questionService.create(questionRequest)));
     }
     @PutMapping("/question/{questionId}")
-    public  ResponseEntity editQuestionSubjectIdAndTitle(@PathVariable String questionId,@RequestParam String subjectId, @RequestParam String question){
-        return ResponseEntity.ok(new ResultSucces(true,questionService.editSubjectsAndTitle(questionId,subjectId,question)));
+    public  ResponseEntity editQuestionSubjectIdAndTitle(@PathVariable String questionId,@RequestParam String subjectId, @RequestParam String questionUz,@RequestParam String questionRu){
+        return ResponseEntity.ok(new ResultSucces(true,questionService.editSubjectsAndTitle(questionId,subjectId,questionRu,questionUz)));
     }
     @PutMapping("/questions/{questionId}")
     public  ResponseEntity editQuestionSubjectIdWithAnswersList(@PathVariable String questionId,@RequestBody QuestionRequest question){
