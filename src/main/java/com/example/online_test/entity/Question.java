@@ -31,11 +31,11 @@ public class Question implements Serializable {
     @Column(nullable = false, length = 10000)
     private String questionUz;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "question_answerss",
-            joinColumns = @JoinColumn(name = "question_id"),
-            inverseJoinColumns = @JoinColumn(name = "answers_id"))
-    private List<Answer> answer;
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "question_answerss",
+//            joinColumns = @JoinColumn(name = "question_id"),
+//            inverseJoinColumns = @JoinColumn(name = "answers_id"))
+//    private List<Answer> answer;
 
     @Column
     private String correctAnswerId;

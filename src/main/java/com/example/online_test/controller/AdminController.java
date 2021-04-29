@@ -23,8 +23,8 @@ public class AdminController {
     UserService userService;
     @Autowired
     SubjectsService subjectsService;
-    @Autowired
-    QuestionService questionService;
+//    @Autowired
+//    QuestionService questionService;
     @Autowired
     private AttachmentService attachmentService;
 
@@ -62,29 +62,29 @@ public class AdminController {
     public  ResponseEntity deleteSubject(@PathVariable String id){
         return subjectsService.delete(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
     }
-    @PostMapping("/question/add")
-    public  ResponseEntity addQuestion(@RequestBody QuestionRequest questionRequest){
-        return ResponseEntity.ok(new ResultSucces(true,questionService.create(questionRequest)));
-    }
-    @PutMapping("/question/{questionId}")
-    public  ResponseEntity editQuestionSubjectIdAndTitle(@PathVariable String questionId,@RequestParam String subjectId, @RequestParam String questionUz,@RequestParam String questionRu){
-        return ResponseEntity.ok(new ResultSucces(true,questionService.editSubjectsAndTitle(questionId,subjectId,questionRu,questionUz)));
-    }
-    @PutMapping("/questions/{questionId}")
-    public  ResponseEntity editQuestionSubjectIdWithAnswersList(@PathVariable String questionId,@RequestBody QuestionRequest question){
-        return ResponseEntity.ok(new ResultSucces(true,questionService.editByAnswersList(questionId,question)));
-    }
-    @DeleteMapping("/question/{id}")
-    public  ResponseEntity deleteQuestion(@PathVariable String id){
-        return questionService.delete(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
-    }
-    @GetMapping("/question/{subjectId}")
-    public  ResponseEntity getAllQuestionsBySubjectId(@PathVariable String subjectId){
-        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListBySubjectId(subjectId))); }
-    @GetMapping("/question/all")
-    public  ResponseEntity getAllQuestions(){
-        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListByCreateDesc()));
-    }
+//    @PostMapping("/question/add")
+//    public  ResponseEntity addQuestion(@RequestBody QuestionRequest questionRequest){
+//        return ResponseEntity.ok(new ResultSucces(true,questionService.create(questionRequest)));
+//    }
+//    @PutMapping("/question/{questionId}")
+//    public  ResponseEntity editQuestionSubjectIdAndTitle(@PathVariable String questionId,@RequestParam String subjectId, @RequestParam String questionUz,@RequestParam String questionRu){
+//        return ResponseEntity.ok(new ResultSucces(true,questionService.editSubjectsAndTitle(questionId,subjectId,questionRu,questionUz)));
+//    }
+//    @PutMapping("/questions/{questionId}")
+//    public  ResponseEntity editQuestionSubjectIdWithAnswersList(@PathVariable String questionId,@RequestBody QuestionRequest question){
+//        return ResponseEntity.ok(new ResultSucces(true,questionService.editByAnswersList(questionId,question)));
+//    }
+//    @DeleteMapping("/question/{id}")
+//    public  ResponseEntity deleteQuestion(@PathVariable String id){
+//        return questionService.delete(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
+//    }
+//    @GetMapping("/question/{subjectId}")
+//    public  ResponseEntity getAllQuestionsBySubjectId(@PathVariable String subjectId){
+//        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListBySubjectId(subjectId))); }
+//    @GetMapping("/question/all")
+//    public  ResponseEntity getAllQuestions(){
+//        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListByCreateDesc()));
+//    }
     @DeleteMapping("/answer/{id}")
     public  ResponseEntity deleteAnswer(@PathVariable String id){
         return answerService.deleteById(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);

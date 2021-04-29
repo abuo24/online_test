@@ -1,5 +1,6 @@
 package com.example.online_test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +29,9 @@ public class Answer implements Serializable {
 
     @Column(nullable = false, length = 10000)
     private String titleRu;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Question question;
 
 }

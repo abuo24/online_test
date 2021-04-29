@@ -32,65 +32,65 @@ public class BlokServiceImpl implements BlokService {
     @Autowired
     HistoryRepository historyRepository;
 
-    @Autowired
-    QuestionService questionService;
+//    @Autowired
+//    QuestionService questionService;
 
     @Autowired
     HistorySavedAnswersRepository historySavedAnswersRepository;
 
-    @Override
-    public Blok create(String userId, BlokRequest blokRequest) {
-        try {
-            Blok blok = new Blok();
-            Subjects subjects = subjectsRepository.getOne(blokRequest.getBlokFirstId());
-            subjects.setParentsFirst(null);
-            subjects.setParentsSecond(null);
-            blok.setBlokFirst(subjects);
-            blok.setQuestionFirstList(questionService.getRandomQuestionListBySubjectId(subjects.getId()));
-            Subjects subjects1 = subjectsRepository.getOne(blokRequest.getBlokSecondId());
-            subjects1.setParentsFirst(null);
-            subjects1.setParentsSecond(null);
-            blok.setBlokSecond(subjects1);
-            blok.setQuestionSecondList(questionService.getRandomQuestionListBySubjectId(subjects1.getId()));
-            Subjects subjects2 = subjectsRepository.getOne(blokRequest.getBlokThirdId());
-            subjects2.setParentsFirst(null);
-            subjects2.setParentsSecond(null);
-            blok.setBlokThird(subjects2);
-            blok.setQuestionThirdList(questionService.getRandomQuestionListBySubjectId(subjects2.getId()));
-            blok.setUser(userRepository.findById(userId).get());
-            Date date = new Date();
-            blok.setFinalDate(date);
-            if (blokRequest == null && userId == null) {
-                return null;
-            }
-            Blok blok1 = blokRepository.save(blok);
-            date = new Date(blok1.getCreateAt().getTime());
-            LocalDateTime localDateTime = date.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime();
-            localDateTime = localDateTime.plusHours(3);
-            Date date1 = new Date();
-            date1.setDate(localDateTime.getDayOfMonth());
-            date1.setYear(localDateTime.getYear() - 1900);
-            date1.setMinutes(localDateTime.getMinute());
-            date1.setSeconds(localDateTime.getSecond());
-            date1.setHours(localDateTime.getHour());
-            date1.setMonth(localDateTime.getMonthValue() - 1);
-            blok1.setFinalDate(date1);
-            Blok blokN = blokRepository.save(blok1);
-            if (blokN == null) {
-                return null;
-            }
-            blokN.setBlokFirst(subjects);
-            blokN.setBlokSecond(subjects1);
-            blokN.setBlokThird(subjects2);
-
-            return blokN;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
+//    @Override
+//    public Blok create(String userId, BlokRequest blokRequest) {
+//        try {
+//            Blok blok = new Blok();
+//            Subjects subjects = subjectsRepository.getOne(blokRequest.getBlokFirstId());
+//            subjects.setParentsFirst(null);
+//            subjects.setParentsSecond(null);
+//            blok.setBlokFirst(subjects);
+//            blok.setQuestionFirstList(questionService.getRandomQuestionListBySubjectId(subjects.getId()));
+//            Subjects subjects1 = subjectsRepository.getOne(blokRequest.getBlokSecondId());
+//            subjects1.setParentsFirst(null);
+//            subjects1.setParentsSecond(null);
+//            blok.setBlokSecond(subjects1);
+//            blok.setQuestionSecondList(questionService.getRandomQuestionListBySubjectId(subjects1.getId()));
+//            Subjects subjects2 = subjectsRepository.getOne(blokRequest.getBlokThirdId());
+//            subjects2.setParentsFirst(null);
+//            subjects2.setParentsSecond(null);
+//            blok.setBlokThird(subjects2);
+//            blok.setQuestionThirdList(questionService.getRandomQuestionListBySubjectId(subjects2.getId()));
+//            blok.setUser(userRepository.findById(userId).get());
+//            Date date = new Date();
+//            blok.setFinalDate(date);
+//            if (blokRequest == null && userId == null) {
+//                return null;
+//            }
+//            Blok blok1 = blokRepository.save(blok);
+//            date = new Date(blok1.getCreateAt().getTime());
+//            LocalDateTime localDateTime = date.toInstant()
+//                    .atZone(ZoneId.systemDefault())
+//                    .toLocalDateTime();
+//            localDateTime = localDateTime.plusHours(3);
+//            Date date1 = new Date();
+//            date1.setDate(localDateTime.getDayOfMonth());
+//            date1.setYear(localDateTime.getYear() - 1900);
+//            date1.setMinutes(localDateTime.getMinute());
+//            date1.setSeconds(localDateTime.getSecond());
+//            date1.setHours(localDateTime.getHour());
+//            date1.setMonth(localDateTime.getMonthValue() - 1);
+//            blok1.setFinalDate(date1);
+//            Blok blokN = blokRepository.save(blok1);
+//            if (blokN == null) {
+//                return null;
+//            }
+//            blokN.setBlokFirst(subjects);
+//            blokN.setBlokSecond(subjects1);
+//            blokN.setBlokThird(subjects2);
+//
+//            return blokN;
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return null;
+//    }
 
     @Override
     public Blok isProcessingBlokWithUserId(String userId) {
@@ -218,6 +218,4 @@ public class BlokServiceImpl implements BlokService {
         }
         return null;
     }
-
-
 }
