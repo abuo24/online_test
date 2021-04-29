@@ -2,10 +2,7 @@ package com.example.online_test.controller;
 
 import com.example.online_test.model.ResultSucces;
 import com.example.online_test.model.Result;
-import com.example.online_test.payload.QuestionRequest;
-import com.example.online_test.payload.ReqUser;
-import com.example.online_test.payload.RouteRequest;
-import com.example.online_test.payload.SubjectRequest;
+import com.example.online_test.payload.*;
 import com.example.online_test.repository.AttachmentRepository;
 import com.example.online_test.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +17,25 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdminController {
 
     @Autowired
+    CourseService courseService;
+
+    @Autowired
     UserService userService;
     @Autowired
     SubjectsService subjectsService;
-//    @Autowired
-//    QuestionService questionService;
+    @Autowired
+    QuestionService questionService;
     @Autowired
     private AttachmentService attachmentService;
 
     @Autowired
     private AnswerService answerService;
-   @Autowired
+
+    @Autowired
     private RouteService routeService;
+
+    @Autowired
+    private GroupService groupService;
 
     @GetMapping("/user/all")
     public HttpEntity<?> getUSerList(){
@@ -62,29 +66,29 @@ public class AdminController {
     public  ResponseEntity deleteSubject(@PathVariable String id){
         return subjectsService.delete(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
     }
-//    @PostMapping("/question/add")
-//    public  ResponseEntity addQuestion(@RequestBody QuestionRequest questionRequest){
-//        return ResponseEntity.ok(new ResultSucces(true,questionService.create(questionRequest)));
-//    }
-//    @PutMapping("/question/{questionId}")
-//    public  ResponseEntity editQuestionSubjectIdAndTitle(@PathVariable String questionId,@RequestParam String subjectId, @RequestParam String questionUz,@RequestParam String questionRu){
-//        return ResponseEntity.ok(new ResultSucces(true,questionService.editSubjectsAndTitle(questionId,subjectId,questionRu,questionUz)));
-//    }
-//    @PutMapping("/questions/{questionId}")
-//    public  ResponseEntity editQuestionSubjectIdWithAnswersList(@PathVariable String questionId,@RequestBody QuestionRequest question){
-//        return ResponseEntity.ok(new ResultSucces(true,questionService.editByAnswersList(questionId,question)));
-//    }
-//    @DeleteMapping("/question/{id}")
-//    public  ResponseEntity deleteQuestion(@PathVariable String id){
-//        return questionService.delete(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
-//    }
-//    @GetMapping("/question/{subjectId}")
-//    public  ResponseEntity getAllQuestionsBySubjectId(@PathVariable String subjectId){
-//        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListBySubjectId(subjectId))); }
-//    @GetMapping("/question/all")
-//    public  ResponseEntity getAllQuestions(){
-//        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListByCreateDesc()));
-//    }
+    @PostMapping("/question/add")
+    public  ResponseEntity addQuestion(@RequestBody QuestionRequest questionRequest){
+        return ResponseEntity.ok(new ResultSucces(true,questionService.create(questionRequest)));
+    }
+    @PutMapping("/question/{questionId}")
+    public  ResponseEntity editQuestionSubjectIdAndTitle(@PathVariable String questionId,@RequestParam String subjectId, @RequestParam String questionUz,@RequestParam String questionRu){
+        return ResponseEntity.ok(new ResultSucces(true,questionService.editSubjectsAndTitle(questionId,subjectId,questionRu,questionUz)));
+    }
+    @PutMapping("/questions/{questionId}")
+    public  ResponseEntity editQuestionSubjectIdWithAnswersList(@PathVariable String questionId,@RequestBody QuestionRequest question){
+        return ResponseEntity.ok(new ResultSucces(true,questionService.editByAnswersList(questionId,question)));
+    }
+    @DeleteMapping("/question/{id}")
+    public  ResponseEntity deleteQuestion(@PathVariable String id){
+        return questionService.delete(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/question/{subjectId}")
+    public  ResponseEntity getAllQuestionsBySubjectId(@PathVariable String subjectId){
+        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListBySubjectId(subjectId))); }
+    @GetMapping("/question/all")
+    public  ResponseEntity getAllQuestions(){
+        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListByCreateDesc()));
+    }
     @DeleteMapping("/answer/{id}")
     public  ResponseEntity deleteAnswer(@PathVariable String id){
         return answerService.deleteById(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
@@ -124,6 +128,41 @@ public class AdminController {
     @DeleteMapping("/route/{routeId}")
     public ResponseEntity delRoute(@PathVariable String routeId){
         return routeService.delete(routeId)?ResponseEntity.ok(new ResultSucces(true,"deleted")): new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/course/add")
+    public HttpEntity<?> addCourse(@RequestBody ReqCourse reqCourse){
+        return courseService.addCourse(reqCourse);
+    }
+    @PutMapping("/course/{id}")
+    public HttpEntity<?> editCourse(@RequestBody ReqCourse reqCourse, @PathVariable String id){
+        return courseService.editCourse(reqCourse,id);
+    }
+    @DeleteMapping("/course/{id}")
+    public HttpEntity<?> deleteCourse(@PathVariable String id){
+        return courseService.deleteCourse(id);
+    }
+
+    @PostMapping("/group/add")
+    public HttpEntity<?> addGroups(@RequestBody ReqGroup reqGroup){
+        return groupService.addGroups(reqGroup);
+    }
+    @PutMapping("/group/{id}")
+    public HttpEntity<?> editGroups(@RequestBody ReqGroup reqGroup, @PathVariable String id){
+        return groupService.editGroup(reqGroup,id);
+    }
+    @DeleteMapping("/group/{id}")
+    public HttpEntity<?> deleteGroups(@PathVariable String id){
+        return groupService.deleteGroup(id);
+    }
+
+    @GetMapping("/group/all")
+    public HttpEntity<?> getGroupList(){
+        return groupService.getAllGroups();
+    }
+    @GetMapping("/group/{id}")
+    public HttpEntity<?> getGroupsById(@PathVariable String id){
+        return groupService.getOneGroupsById(id);
     }
 
 

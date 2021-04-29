@@ -16,10 +16,7 @@ import com.example.online_test.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileUrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -51,6 +48,12 @@ public class ClientController {
     BlokService blokService;
     @Autowired
     RouteService routeService;
+    @Autowired
+    CourseService courseService;
+
+    @Autowired
+    GroupService groupService;
+
     @Value("${upload.folder}")
     private String uploadFolder;
 
@@ -66,11 +69,11 @@ public class ClientController {
     public ResponseEntity getSubjectListByIds(@PathVariable String parentId, @RequestParam String parentSecondId){
         return subjectsService.getSubjectListByIds(parentId, parentSecondId)!=null?ResponseEntity.ok(new ResultSucces(true,subjectsService.getSubjectListByIds(parentId,parentSecondId))):new ResponseEntity(new Result(false,"not found"), HttpStatus.BAD_REQUEST);
     }
-//    @PostMapping("/blok")
-//    public ResponseEntity createBlokWithSubjectIdsAndUserId(@RequestBody BlokRequest blokRequest, HttpServletRequest httpServletRequest){
-//        User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(httpServletRequest))).get();
-//        return user!=null?ResponseEntity.ok(new ResultSucces(true, blokService.create(user.getId(),blokRequest))):new ResponseEntity(new Result(false,"not authentication"), HttpStatus.BAD_REQUEST);
-//    }
+    @PostMapping("/blok")
+    public ResponseEntity createBlokWithSubjectIdsAndUserId(@RequestBody BlokRequest blokRequest, HttpServletRequest httpServletRequest){
+        User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(httpServletRequest))).get();
+        return user!=null?ResponseEntity.ok(new ResultSucces(true, blokService.create(user.getId(),blokRequest))):new ResponseEntity(new Result(false,"not authentication"), HttpStatus.BAD_REQUEST);
+    }
     @GetMapping("/blok/process")
     public ResponseEntity isProcessingBlogByUserId(HttpServletRequest httpServletRequest){
         User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(httpServletRequest))).get();
@@ -130,6 +133,14 @@ public class ClientController {
     @GetMapping("/route/all")
     public ResponseEntity getAllRoutes(){
         return  ResponseEntity.ok(new ResultSucces(true, routeService.getAllRouteList()));
+    }
+    @GetMapping("/course/all")
+    public HttpEntity<?> getCourseList(){
+        return courseService.getCourseList();
+    }
+    @GetMapping("/course/{id}")
+    public HttpEntity<?> getCourseById(@PathVariable String id){
+        return courseService.getCourseById(id);
     }
 
 
