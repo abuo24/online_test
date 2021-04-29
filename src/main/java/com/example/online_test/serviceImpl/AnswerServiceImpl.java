@@ -31,8 +31,27 @@ public class AnswerServiceImpl implements AnswerService {
             if (answer == null) {
                 return null;
             }
-            answer.setTitle(answer.getTitle());
+            answer.setTitleRu(answer.getTitleRu());
+            answer.setTitleUz(answer.getTitleUz());
             return answerRepository.save(answer);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    @Override
+    public Answer edit(String id, String answer) {
+        try {
+            Answer answer1 =answerRepository.getOne(id);
+            if (answer == null) {
+                return null;
+            }
+            if (answer1 == null) {
+                return null;
+            }
+            answer1.setTitleUz(answer);
+            answer1.setTitleRu(answer);
+            return answerRepository.save(answer1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -50,19 +69,25 @@ public class AnswerServiceImpl implements AnswerService {
             }
             List<AnswerRequest> list = new ArrayList<>();
 
-            for (int i = 0; i < answers.size(); i++) {
-                answer2.setTitle(answers.get(i).getTitle());
+            for(int i = 0; i < answers.size(); i++) {
+                answerRequest = new AnswerRequest();
+                answer2 = new Answer();
+                answer2.setTitleRu(answers.get(i).getTitleRu());
+                answer2.setTitleUz(answers.get(i).getTitleUz());
                 answer1 = create(answer2);
                 if (answer1 != null) {
                     if (answers.get(i).isCorrect()) {
                         answerRequest.setCorrect(true);
+                    } else {
+                        answerRequest.setCorrect(false);
                     }
-                    answerRequest.setId(answers.get(i).getId());
+                    answerRequest.setTitleUz(answers.get(i).getTitleUz());
+                    answerRequest.setTitleRu(answers.get(i).getTitleRu());
+                    answerRequest.setId(answer1.getId());
                     list.add(answerRequest);
                 }
             }
             return list;
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -76,6 +101,16 @@ public class AnswerServiceImpl implements AnswerService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+    @Override
+    public boolean deleteById(String answers) {
+        try {
+            answerRepository.deleteById(answers);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
 }
