@@ -127,6 +127,10 @@ public class ClientController {
     public ResponseEntity getHistoryByPagealable(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         return  ResponseEntity.ok(new ResultSucces(true, historyService.getAllByPages(page, size)));
     }
+    @GetMapping("/route/all")
+    public ResponseEntity getAllRoutes(){
+        return  ResponseEntity.ok(new ResultSucces(true, routeService.getAllRouteList()));
+    }
 
 
 
