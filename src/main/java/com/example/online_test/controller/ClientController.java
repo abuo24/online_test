@@ -8,6 +8,7 @@ import com.example.online_test.payload.BlokRequest;
 import com.example.online_test.payload.FileResponse;
 import com.example.online_test.payload.VerifingRequest;
 import com.example.online_test.repository.AttachmentRepository;
+import com.example.online_test.repository.HistoryRepository;
 import com.example.online_test.repository.UserRepository;
 import com.example.online_test.security.JwtTokenFilter;
 import com.example.online_test.security.JwtTokenProvider;
@@ -37,6 +38,8 @@ public class ClientController {
 
     @Autowired
     private AttachmentRepository attachmentRepository;
+    @Autowired
+    private HistoryService historyService;
 
     @Autowired
     SubjectsService subjectsService;
@@ -120,6 +123,14 @@ public class ClientController {
         return  routeService.getRoutesByFirstSubjectIdAndSecondSubjectIdAndThirdSubjectIds(subFirstId, subjectSecondId, subjectThirdId)!=null?ResponseEntity.ok(new ResultSucces(true, routeService.getRoutesByFirstSubjectIdAndSecondSubjectIdAndThirdSubjectIds(subFirstId, subjectSecondId, subjectThirdId))):new ResponseEntity(new Result(false,"not found route"),HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/history/all")
+    public ResponseEntity getHistoryByPagealable(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        return  ResponseEntity.ok(new ResultSucces(true, historyService.getAllByPages(page, size)));
+    }
+    @GetMapping("/route/all")
+    public ResponseEntity getAllRoutes(){
+        return  ResponseEntity.ok(new ResultSucces(true, routeService.getAllRouteList()));
+    }
 
 
 

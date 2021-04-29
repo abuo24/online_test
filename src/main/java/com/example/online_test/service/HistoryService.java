@@ -1,5 +1,7 @@
 package com.example.online_test.service;
 
-public interface HistoryService {
+import java.util.Map;
 
+public interface HistoryService {
+    public Map getAllByPages(int page, int size);
 }
