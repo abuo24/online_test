@@ -97,7 +97,7 @@ public class AdminController {
     }
     @PutMapping("/answer/{answerId}")
     public  ResponseEntity editAnswerSubjectIdAndTitle(@PathVariable String answerId, @RequestParam String titleUz, @RequestParam String titleRu){
-        return ResponseEntity.ok(new ResultSucces(true,answerService.edit(answerId,title)));
+        return ResponseEntity.ok(new ResultSucces(true,answerService.edit(answerId,titleUz, titleRu)));
     }
 
     @GetMapping("/files")
