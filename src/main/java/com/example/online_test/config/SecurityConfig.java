@@ -1,8 +1,5 @@
 package com.example.online_test.config;
 
-//import com.example.online_test.security.AuthEntryPointJwt;
-//import com.example.online_test.security.AuthTokenFilter;
-
 import com.example.online_test.security.JwtAuthenticationEntryPoint;
 import com.example.online_test.security.JwtConfigurer;
 import com.example.online_test.security.JwtTokenFilter;
@@ -38,13 +35,12 @@ import javax.servlet.Filter;
 import javax.servlet.Filter;
 
 
-@Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
-        jsr250Enabled = true,
         prePostEnabled = true
 )
+@EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
@@ -52,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public SecurityConfig(@Qualifier("") @Lazy UserDetailsService userDetailsService, JwtTokenProvider jwtTokenProvider,
+    public SecurityConfig(@Lazy UserDetailsService userDetailsService, JwtTokenProvider jwtTokenProvider,
                           JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -74,8 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html","/**").permitAll()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers( "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

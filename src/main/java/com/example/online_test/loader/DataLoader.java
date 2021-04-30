@@ -39,10 +39,6 @@ public class DataLoader implements CommandLineRunner {
 
         roleRepository.save(adminRole);
 
-        Role mentorRole = new Role();
-        mentorRole.setName("ROLE_MENTOR");
-        roleRepository.save(mentorRole);
-
         User adminUser = new User();
         adminUser.setFirst_name("Admin");
         adminUser.setPassword(passwordEncoder.encode("admin123"));
@@ -50,7 +46,6 @@ public class DataLoader implements CommandLineRunner {
         adminUser.setPhoneNumber("+998937641464");
         adminUser.setRoles(new ArrayList<Role>() {{
             add(adminRole);
-            add(mentorRole);
         }});
         userRepository.save(adminUser);
 
@@ -60,7 +55,6 @@ public class DataLoader implements CommandLineRunner {
         mentorUser.setFirst_name("Mentor");
         mentorUser.setPhoneNumber("+998932099924");
         mentorUser.setRoles(new ArrayList<Role>() {{
-            add(mentorRole);
         }});
         userRepository.save(mentorUser);
 

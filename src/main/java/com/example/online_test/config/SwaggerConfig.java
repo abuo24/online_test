@@ -18,8 +18,8 @@ import java.util.List;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
-@Configuration
 @EnableSwagger2
+@Configuration
 public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
     public Docket productApi() {
@@ -32,9 +32,9 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     }
     private ApiInfo metaData() {
         List<VendorExtension> vendorExtensions = new ArrayList<>();
-        ApiInfo apiInfo = new ApiInfoBuilder().title("Example api").description("Spring Boot REST API for Online Test version 8.0")
+        ApiInfo apiInfo = new ApiInfoBuilder().title("Example api").description("Spring Boot REST API for Online Test")
                 .license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
-                .contact(new Contact("Yunusjonov Orifjon", "http://localhost:8081/", "mryediniofficial9924@gmail.com")).build();
+                .contact(new Contact("Yunusjonov Orifjon", "http://localhost:8084/", "mryediniofficial9924@gmail.com")).build();
         return apiInfo;
     }
     @Override
