@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/api/admin")
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AdminController {
 
     @Autowired
@@ -96,7 +96,7 @@ public class AdminController {
         return answerService.deleteById(id)?ResponseEntity.ok(new Result(true,"deleted")):new ResponseEntity(new Result(true,"not deleted"), HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/answer/{answerId}")
-    public  ResponseEntity editQuestionSubjectIdAndTitle(@PathVariable String answerId, @RequestParam String title){
+    public  ResponseEntity editAnswerSubjectIdAndTitle(@PathVariable String answerId, @RequestParam String titleUz, @RequestParam String titleRu){
         return ResponseEntity.ok(new ResultSucces(true,answerService.edit(answerId,title)));
     }
 

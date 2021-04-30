@@ -40,17 +40,20 @@ public class AnswerServiceImpl implements AnswerService {
         return null;
     }
     @Override
-    public Answer edit(String id, String answer) {
+    public Answer edit(String id, String answerUz, String answerRu) {
         try {
             Answer answer1 =answerRepository.getOne(id);
-            if (answer == null) {
+            if (answerUz == null) {
+                return null;
+            }
+            if (answerRu == null) {
                 return null;
             }
             if (answer1 == null) {
                 return null;
             }
-            answer1.setTitleUz(answer);
-            answer1.setTitleRu(answer);
+            answer1.setTitleUz(answerUz);
+            answer1.setTitleRu(answerRu);
             return answerRepository.save(answer1);
         } catch (Exception e) {
             System.out.println(e.getMessage());

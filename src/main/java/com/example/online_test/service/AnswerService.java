@@ -10,7 +10,7 @@ import java.util.List;
 public interface AnswerService {
 
     public Answer create(Answer answer);
-    public Answer edit(String id, String answer);
+    public Answer edit(String id, String answerUz, String answerRu);
     public boolean deleteById(String answers);
 
     public List<AnswerRequest> createAll(List<AnswerRequest> answers);
