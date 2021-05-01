@@ -65,7 +65,6 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean addGroups(ReqGroup reqGroup) {
         try {
-
             Groups groups = new Groups();
             groups.setName(reqGroup.getName());
             return groupsRepository.save(groups) != null;
@@ -78,11 +77,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean editGroup(ReqGroup reqGroup, String id) {
         try {
-            Optional<Groups> byId = groupsRepository.findById(id);
-            if (!byId.isPresent()) {
+            Groups byId = groupsRepository.findById(id).get();
+            if (byId==null) {
                 return false;
             }
-            Groups groups = byId.get();
+            Groups groups = byId;
             groups.setId(id);
             groups.setName(reqGroup.getName());
             return groupsRepository.save(groups) != null;
