@@ -129,7 +129,7 @@ public class AdminController {
     }
     @DeleteMapping("/route/{routeId}")
     public ResponseEntity delRoute(@PathVariable String routeId){
-        return routeService.delete(routeId)?ResponseEntity.ok(new ResultSucces(true,"deleted")): new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
+        return routeService.delete(routeId)?ResponseEntity.ok(new ResultSucces(true,"deleted")):new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/course/add")
