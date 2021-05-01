@@ -1,24 +1,15 @@
 package com.example.online_test.serviceImpl;
 
-import com.example.online_test.entity.Answer;
-import com.example.online_test.entity.Question;
 import com.example.online_test.entity.SubHelp;
 import com.example.online_test.entity.Subjects;
-import com.example.online_test.payload.AnswerRequest;
-import com.example.online_test.payload.QuestionRequest;
 import com.example.online_test.payload.SubjectRequest;
-import com.example.online_test.repository.AnswerRepository;
 import com.example.online_test.repository.QuestionRepository;
 import com.example.online_test.repository.SubHelpRepository;
 import com.example.online_test.repository.SubjectsRepository;
 import com.example.online_test.service.SubjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.List;
 

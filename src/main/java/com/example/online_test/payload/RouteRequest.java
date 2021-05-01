@@ -17,6 +17,4 @@ public class RouteRequest {
     private String subjectSecond;
 
     private String subjectThird;
-
-    private String universityId;
 }

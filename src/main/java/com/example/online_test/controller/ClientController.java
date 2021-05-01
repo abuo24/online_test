@@ -2,34 +2,29 @@ package com.example.online_test.controller;
 
 import com.example.online_test.entity.Attachment;
 import com.example.online_test.entity.User;
-import com.example.online_test.model.ResultSucces;
 import com.example.online_test.model.Result;
+import com.example.online_test.model.ResultSucces;
 import com.example.online_test.payload.BlokRequest;
-import com.example.online_test.payload.FileResponse;
-import com.example.online_test.payload.VerifingRequest;
 import com.example.online_test.repository.AttachmentRepository;
-import com.example.online_test.repository.HistoryRepository;
 import com.example.online_test.repository.UserRepository;
-import com.example.online_test.security.JwtTokenFilter;
 import com.example.online_test.security.JwtTokenProvider;
 import com.example.online_test.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileUrlResource;
-import org.springframework.http.*;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/api/client")
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ClientController {
     @Autowired
@@ -39,7 +34,6 @@ public class ClientController {
     private AttachmentRepository attachmentRepository;
     @Autowired
     private HistoryService historyService;
-
     @Autowired
     SubjectsService subjectsService;
     @Autowired
@@ -50,12 +44,6 @@ public class ClientController {
     BlokService blokService;
     @Autowired
     RouteService routeService;
-    @Autowired
-    CourseService courseService;
-
-    @Autowired
-    GroupService groupService;
-
     @Value("${upload.folder}")
     private String uploadFolder;
 
@@ -82,7 +70,6 @@ public class ClientController {
         return blokService.isProcessingBlokWithUserId(user.getId())!=null?ResponseEntity.ok(new ResultSucces(true, blokService.isProcessingBlokWithUserId(user.getId()))):new ResponseEntity(new Result(false,"not processing user"),HttpStatus.BAD_REQUEST);
     }
 
-
     @GetMapping("/file/preview/{hashId}")
     public ResponseEntity preview(@PathVariable String hashId) throws IOException {
         Attachment attachment =  attachmentService.findByHashId(hashId);
@@ -104,13 +91,13 @@ public class ClientController {
                         uploadFolder,
                         attachment.getUploadPath())));
     }
-    @PostMapping("/verifying/{blokId}")
-    public ResponseEntity verifyingTestsByBlokIdAndTests(@PathVariable String blokId, @RequestBody VerifingRequest verifingRequest, HttpServletRequest request){
+    @GetMapping("/verifying/{blokId}")
+    public ResponseEntity finishedTest( @PathVariable String blokId, HttpServletRequest request){
         User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(request))).get();
         if (user==null){
             return ResponseEntity.ok(new Result(false,"token is invalid"));
         }
-        return ResponseEntity.ok(blokService.verifyAllTests(user.getId(), blokId,verifingRequest));
+        return ResponseEntity.ok(blokService.verifyAllTests(user.getId(), blokId));
     }
 
     @GetMapping("/route/{id}")
@@ -136,15 +123,12 @@ public class ClientController {
     public ResponseEntity getAllRoutes(){
         return  ResponseEntity.ok(new ResultSucces(true, routeService.getAllRouteList()));
     }
-    @GetMapping("/course/all")
-    public HttpEntity<?> getCourseList(){
-        return courseService.getCourseList();
+    @PostMapping("/blok/{questionId}")
+    public ResponseEntity saveOneAnswerByQuestionIdAndSelectedAnswerId(@PathVariable String questionId, @RequestParam String selectedId, HttpServletRequest request){
+        User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(request))).get();
+        if (user==null){
+            return ResponseEntity.ok(new Result(false,"token is invalid"));
+        }
+        return blokService.saveAnswerReq(user, questionId, selectedId)?ResponseEntity.ok(new Result(true, "saqlandi")):new ResponseEntity(new Result(false, "saqlanmadi"), HttpStatus.BAD_REQUEST);
     }
-    @GetMapping("/course/{id}")
-    public HttpEntity<?> getCourseById(@PathVariable String id){
-        return courseService.getCourseById(id);
-    }
-
-
-
 }

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReqGroup {
 
-    private String nameUz;
+    private String name;
 
-    private String nameRu;
 }

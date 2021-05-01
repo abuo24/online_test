@@ -1,6 +1,5 @@
 package com.example.online_test.serviceImpl;
 
-import com.example.online_test.entity.Role;
 import com.example.online_test.entity.User;
 import com.example.online_test.model.Result;
 import com.example.online_test.payload.ReqUser;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +44,7 @@ public class UserServiceImpl implements UserService {
         user.setLast_name(reqUser.getLast_name());
         user.setPhoneNumber(reqUser.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(reqUser.getPassword()));
-//        user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
+        user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
         user.setRoles(roleRepository.findAllByName("ROLE_USER"));
         userRepository.save(user);
         return new Result(true, "Successfully created user");
@@ -61,7 +59,7 @@ public class UserServiceImpl implements UserService {
             user.setLast_name(reqUser.getLast_name());
             user.setPassword(reqUser.getPassword());
             user.setPhoneNumber(reqUser.getPhoneNumber());
-//            user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
+            user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
             userRepository.save(user);
             return new Result(true, "Successfully edited user");
         }

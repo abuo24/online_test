@@ -146,26 +146,28 @@ public class AdminController {
     }
 
     @PostMapping("/group/add")
-    public HttpEntity<?> addGroups(@RequestBody ReqGroup reqGroup){
-        return groupService.addGroups(reqGroup);
+    public ResponseEntity addGroups(@RequestBody ReqGroup reqGroup){
+        return groupService.addGroups(reqGroup)?ResponseEntity.ok(new Result(true, "saqlandi")):new ResponseEntity(new Result(false, "saqlanmadi"), HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/group/{id}")
-    public HttpEntity<?> editGroups(@RequestBody ReqGroup reqGroup, @PathVariable String id){
-        return groupService.editGroup(reqGroup,id);
+    public ResponseEntity editGroups(@RequestBody ReqGroup reqGroup, @PathVariable String id){
+        return groupService.editGroup(reqGroup,id)?ResponseEntity.ok(new Result(true, "o'zgartirildi")):new ResponseEntity(new Result(false, "xatolik"), HttpStatus.BAD_REQUEST);
+
     }
     @DeleteMapping("/group/{id}")
-    public HttpEntity<?> deleteGroups(@PathVariable String id){
-        return groupService.deleteGroup(id);
+    public ResponseEntity deleteGroups(@PathVariable String id){
+        return groupService.deleteGroup(id)?ResponseEntity.ok(new Result(true, "deleted")):new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/group/all")
-    public HttpEntity<?> getGroupList(){
-        return groupService.getAllGroups();
+    public ResponseEntity getGroupList( @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,groupService.getAllByPages(page,size)));
     }
-    @GetMapping("/group/{id}")
-    public HttpEntity<?> getGroupsById(@PathVariable String id){
-        return groupService.getOneGroupsById(id);
+    @GetMapping("/users/{groupId}")
+    public ResponseEntity getUsersByGroupId(@PathVariable String groupId,@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,groupService.getUserByGroupId(groupId, page,size)));
     }
-
 
 }

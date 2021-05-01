@@ -1,18 +1,17 @@
 package com.example.online_test.service;
 
 import com.example.online_test.payload.ReqGroup;
-import org.springframework.http.HttpEntity;
+
+import java.util.Map;
 
 public interface GroupService {
+    public Map getAllByPages(int page, int size);
 
-    public HttpEntity<?> getAllGroups();
+    public Map getUserByGroupId(String id, int page, int size);
 
-    public HttpEntity<?> getOneGroupsById(String id);
+    public boolean addGroups(ReqGroup reqGroup);
 
-    public HttpEntity<?> addGroups(ReqGroup reqGroup);
+    public boolean editGroup(ReqGroup reqGroup, String id);
 
-    public HttpEntity<?> editGroup(ReqGroup reqGroup, String id);
-
-    public HttpEntity<?> deleteGroup(String id);
-
+    public boolean deleteGroup(String id);
 }

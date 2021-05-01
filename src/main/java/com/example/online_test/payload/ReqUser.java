@@ -24,5 +24,4 @@ public class ReqUser {
 
     private String groupId;
 
-
 }

@@ -26,16 +26,8 @@ public class Groups implements Serializable {
     private String id;
 
     @Column(nullable = false)
-    private String nameUz;
+    private String name;
 
-    @Column(nullable = false)
-    private String nameRu;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "group_users",
-//            joinColumns = @JoinColumn(name = "group_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id"))
-//    private List<User> users;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)

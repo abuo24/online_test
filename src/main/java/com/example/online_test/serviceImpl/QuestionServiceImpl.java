@@ -4,11 +4,12 @@ import com.example.online_test.entity.Answer;
 import com.example.online_test.entity.Question;
 import com.example.online_test.payload.AnswerRequest;
 import com.example.online_test.payload.QuestionRequest;
-import com.example.online_test.repository.*;
+import com.example.online_test.repository.AnswerRepository;
+import com.example.online_test.repository.QuestionRepository;
+import com.example.online_test.repository.SubjectsRepository;
 import com.example.online_test.service.AnswerService;
 import com.example.online_test.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,8 @@ public class QuestionServiceImpl implements QuestionService {
                     id=answerRequests.get(i).getId();
                 }
                 answerList.add(answerRepository.getOne(answerRequests.get(i).getId()));
-            }question1.setAnswer(answerList);
+            }
+            question1.setAnswer(answerList);
             question1.setCorrectAnswerId(id);
             return questionRepository.save(question1);
         } catch (Exception e) {
@@ -62,7 +64,7 @@ public class QuestionServiceImpl implements QuestionService {
         return null;
     }
     @Override
-    public Question editByAnswersList(String qId,QuestionRequest question) {
+    public Question editByAnswersList(String qId, QuestionRequest question) {
         try {
             Question question1 = questionRepository.getOne(qId);
             if (question == null) {
@@ -94,7 +96,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question editSubjectsAndTitle(String id,String subjectId, String  q, String  uz) {
+    public Question editSubjectsAndTitle(String id, String subjectId, String  q, String  uz) {
         try {
             Question question1 = questionRepository.getOne(id);
             if (question1 == null) {
