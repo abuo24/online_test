@@ -85,7 +85,7 @@ public class TeacherServiceImpl implements TeacherService {
                 user.setId(id);
                 user.setFirst_name(reqUser.getFirstName());
                 user.setLast_name(reqUser.getLastName());
-                user.setPassword(reqUser.getPassword());
+                user.setPassword(passwordEncoder.encode(reqUser.getPassword()));
                 user.setPhoneNumber(reqUser.getPhoneNumber());
                 user.setGroups(null);
                 user.setBioRu(reqUser.getBioRu());

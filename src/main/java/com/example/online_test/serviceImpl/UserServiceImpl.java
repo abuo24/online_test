@@ -59,7 +59,12 @@ public class UserServiceImpl implements UserService {
         user.setLast_name(reqUser.getLast_name());
         user.setPhoneNumber(reqUser.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(reqUser.getPassword()));
-        user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
+        if(reqUser.getGroupId()!=null&&!reqUser.getGroupId().equals("")){
+            user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
+        } else {
+            user.setGroups(null);
+        }
+
         user.setRoles(roleRepository.findAllByName("ROLE_USER"));
         userRepository.save(user);
         return new Result(true, "Successfully created user");
@@ -72,9 +77,13 @@ public class UserServiceImpl implements UserService {
             user.setId(id);
             user.setFirst_name(reqUser.getFirst_name());
             user.setLast_name(reqUser.getLast_name());
-            user.setPassword(reqUser.getPassword());
+            user.setPassword(passwordEncoder.encode(reqUser.getPassword()));
             user.setPhoneNumber(reqUser.getPhoneNumber());
-            user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
+            if(reqUser.getGroupId()!=null&&!reqUser.getGroupId().equals("")){
+                user.setGroups(groupsRepository.getOne(reqUser.getGroupId()));
+            } else {
+                user.setGroups(null);
+            }
             userRepository.save(user);
             return new Result(true, "Successfully edited user");
         }
