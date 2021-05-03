@@ -8,9 +8,15 @@ import com.example.online_test.repository.SubjectsRepository;
 import com.example.online_test.repository.UniversityRepository;
 import com.example.online_test.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -34,7 +40,7 @@ public class RouteServiceImpl implements RouteService {
             route.setSubjectSecond(subjectsRepository.getOne(routeRequest.getSubjectSecond()));
             route.setSubjectThird(subjectsRepository.getOne(routeRequest.getSubjectThird()));
             route.setName(routeRequest.getName());
-
+route.setCode(routeRequest.getCode());
             return routeRepository.save(route);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -54,6 +60,7 @@ public class RouteServiceImpl implements RouteService {
             route.setSubjectThird(subjectsRepository.getOne(routeRequest.getSubjectThird()));
             route.setName(routeRequest.getName());
 
+            route.setCode(routeRequest.getCode());
             return routeRepository.save(route);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -65,6 +72,23 @@ public class RouteServiceImpl implements RouteService {
     public List<Route> getAllRouteList() {
         try {
             return routeRepository.findAll();
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    @Override
+    public Map getAllRouteListByPagealable(int page, int size) {
+        try {
+            List<Route> tutorials = new ArrayList<>();
+            Pageable paging = PageRequest.of(page, size);
+            Page<Route> pageTuts = routeRepository.findAllByOrderByCreateAtDesc(paging);
+            tutorials = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("routes", tutorials);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return response;
         } catch (Exception e) {
         }
         return null;

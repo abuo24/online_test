@@ -28,6 +28,8 @@ public class AdminController {
     @Autowired
     QuestionService questionService;
     @Autowired
+    TeacherService teacherService;
+    @Autowired
     private AttachmentService attachmentService;
 
     @Autowired
@@ -37,11 +39,15 @@ public class AdminController {
     private RouteService routeService;
 
     @Autowired
+    private BlogService blogService;
+
+    @Autowired
     private GroupService groupService;
 
     @GetMapping("/user/all")
-    public HttpEntity<?> getUSerList(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity getUserList( @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,userService.getAllUsersByPagealable(page,size)));
     }
     @PostMapping("/user/add")
     public HttpEntity<?> addUser(@RequestBody ReqUser reqUser){
@@ -59,6 +65,11 @@ public class AdminController {
     @PostMapping("/subject/add")
     public  ResponseEntity createSubject(@RequestBody SubjectRequestCreate subjectRequest){
         return ResponseEntity.ok(new ResultSucces(true,subjectsService.create(subjectRequest)));
+    }
+    @GetMapping("/subject/all")
+    public  ResponseEntity getAllSubjectsByPage( @RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,subjectsService.subjectsListByPage(page, size)));
     }
     @PutMapping("/subject/{id}")
     public  ResponseEntity editSubject(@PathVariable String id,@RequestBody SubjectRequest subjectRequest) {
@@ -118,10 +129,15 @@ public class AdminController {
         return ResponseEntity.ok(multipartFile.getOriginalFilename()+" file saqlandi");
     }
 
-
     @PostMapping("/route/add")
     public ResponseEntity createRoute(@RequestBody RouteRequest routeRequest){
         return ResponseEntity.ok(new ResultSucces(true,routeService.create(routeRequest)));
+    }
+
+    @GetMapping("/route/all")
+    public ResponseEntity getRoutesByPage(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,routeService.getAllRouteListByPagealable(page, size)));
     }
     @PutMapping("/route/{routeId}")
     public ResponseEntity editRoute(@PathVariable String routeId,@RequestBody RouteRequest routeRequest){
@@ -139,6 +155,12 @@ public class AdminController {
     @PutMapping("/course/{id}")
     public HttpEntity<?> editCourse(@RequestBody ReqCourse reqCourse, @PathVariable String id){
         return courseService.editCourse(reqCourse,id);
+    }
+
+    @GetMapping("/course/all")
+    public ResponseEntity getCourseListByPage( @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,courseService.getCourseListByPage(page,size)));
     }
     @DeleteMapping("/course/{id}")
     public HttpEntity<?> deleteCourse(@PathVariable String id){
@@ -168,6 +190,30 @@ public class AdminController {
     public ResponseEntity getUsersByGroupId(@PathVariable String groupId,@RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int size){
         return ResponseEntity.ok(new ResultSucces(true,groupService.getUserByGroupId(groupId, page,size)));
+    }
+    @PostMapping("/teacher/add")
+    public ResponseEntity createTeacher(@RequestBody TeacherRequest reqGroup){
+        return teacherService.create(reqGroup)?ResponseEntity.ok(new Result(true, "saqlandi")):new ResponseEntity(new Result(false, "saqlanmadi"), HttpStatus.BAD_REQUEST);
+    }
+    @PutMapping("/teacher/{id}")
+    public ResponseEntity editTeacher(@RequestBody TeacherRequest reqGroup, @PathVariable String id){
+        return teacherService.editUser(reqGroup,id)?ResponseEntity.ok(new Result(true, "o'zgartirildi")):new ResponseEntity(new Result(false, "xatolik"), HttpStatus.BAD_REQUEST);
+    }
+    @DeleteMapping("/teacher/{id}")
+    public ResponseEntity deleteTeacher(@PathVariable String id){
+        return teacherService.deleteUser(id)?ResponseEntity.ok(new Result(true, "deleted")):new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
+    }
+    @PostMapping("/blog/add")
+    public ResponseEntity createBlog(@RequestBody BlogRequest blogRequest){
+        return blogService.createBlog(blogRequest)?ResponseEntity.ok(new Result(true, "saqlandi")):new ResponseEntity(new Result(false, "saqlanmadi"), HttpStatus.BAD_REQUEST);
+    }
+    @PutMapping("/blog/{id}")
+    public ResponseEntity editBlog(@RequestBody BlogRequest blogRequest, @PathVariable String id){
+        return blogService.editBlog(blogRequest, id)?ResponseEntity.ok(new Result(true, "o'zgartirildi")):new ResponseEntity(new Result(false, "xatolik"), HttpStatus.BAD_REQUEST);
+    }
+    @DeleteMapping("/blog/{id}")
+    public ResponseEntity deleteBlog(@PathVariable String id){
+        return blogService.delete(id)?ResponseEntity.ok(new Result(true, "deleted")):new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
     }
 
 }

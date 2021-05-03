@@ -15,5 +15,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Page<User> findAllByGroupsId(String id, Pageable pageable);
 
+    Page<User> findAllByOrderByCreateAtDesc(Pageable pageable);
+
 
 }

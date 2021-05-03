@@ -2,18 +2,22 @@ package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.Attachment;
 import com.example.online_test.entity.Course;
+import com.example.online_test.entity.Groups;
 import com.example.online_test.payload.ReqCourse;
 import com.example.online_test.repository.AttachmentRepository;
 import com.example.online_test.repository.CourseRepository;
 import com.example.online_test.service.AttachmentService;
 import com.example.online_test.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -30,7 +34,30 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public HttpEntity<?> getCourseList() {
-        return new ResponseEntity<>(courseRepository.findAll(), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(courseRepository.findAll(), HttpStatus.OK);
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+    @Override
+    public Map getCourseListByPage(int page, int size) {
+        try {
+            List<Course> tutorials = new ArrayList<>();
+            Pageable paging = PageRequest.of(page, size);
+            Page<Course> pageTuts = courseRepository.findAllByOrderByCreateAtDesc(paging);
+            tutorials = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("courses", tutorials);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return response;
+        }catch (Exception e){
+
+        }
+        return null;
     }
 
     @Override
@@ -50,8 +77,7 @@ public class CourseServiceImpl implements CourseService {
         course.setDurationTime(reqCourse.getDurationTime());
         course.setDescriptionUz(reqCourse.getDescriptionUz());
         course.setDescriptionRu(reqCourse.getDescriptionRu());
-        String attachmentId = attachmentService.save(reqCourse.getMultipartFile());
-        course.setAttachment(attachmentRepository.getOne(attachmentId));
+        course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
         return new ResponseEntity<>(courseRepository.save(course), HttpStatus.OK);
     }
 
@@ -69,8 +95,7 @@ public class CourseServiceImpl implements CourseService {
         course.setId(id);
         course.setDurationTime(reqCourse.getDurationTime());
         attachmentService.delete(course.getAttachment().getHashId());
-        String attachmentId = attachmentService.save(reqCourse.getMultipartFile());
-        course.setAttachment(attachmentRepository.getOne(attachmentId));
+        course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
         return new ResponseEntity<>(courseRepository.save(course), HttpStatus.OK);
     }
     @Override

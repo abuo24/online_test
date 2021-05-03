@@ -8,15 +8,16 @@ import com.example.online_test.repository.RoleRepository;
 import com.example.online_test.repository.UserRepository;
 import com.example.online_test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 
     @Autowired
     UserRepository userRepository;
@@ -31,8 +32,22 @@ public class UserServiceImpl implements UserService {
     GroupsRepository groupsRepository;
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Map getAllUsersByPagealable(int page, int size) {
+        try {
+            List<User> tutorials = new ArrayList<>();
+            Pageable paging = PageRequest.of(page, size);
+            Page<User> pageTuts = userRepository.findAllByOrderByCreateAtDesc(paging);
+            tutorials = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("users", tutorials);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return response;
+        }catch (Exception e){
+
+        }
+        return null;
     }
     @Override
     public Result create(ReqUser reqUser) {

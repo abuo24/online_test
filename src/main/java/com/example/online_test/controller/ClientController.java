@@ -37,11 +37,15 @@ public class ClientController {
     @Autowired
     SubjectsService subjectsService;
     @Autowired
+    TeacherService teacherService;
+    @Autowired
     UserRepository userRepository;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     BlokService blokService;
+    @Autowired
+    BlogService blogService;
     @Autowired
     RouteService routeService;
     @Value("${upload.folder}")
@@ -55,19 +59,17 @@ public class ClientController {
     public ResponseEntity getSubjectById(@PathVariable String id){
         return subjectsService.getOneById(id)!=null?ResponseEntity.ok(new ResultSucces(true,subjectsService.getOneById(id))):new ResponseEntity(new Result(false,"not found"), HttpStatus.BAD_REQUEST);
     }
+    @GetMapping("/blog/all")
+    public ResponseEntity getAllBlogsByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,blogService.getAllBlogsList(page,size)));
+    }
+    @GetMapping("/blog/{id}")
+    public ResponseEntity getBlogById(@PathVariable String id){
+        return blogService.getBlogById(id)!=null?ResponseEntity.ok(new ResultSucces(true,blogService.getBlogById(id))):new ResponseEntity(new Result(false,"not found"), HttpStatus.BAD_REQUEST);
+    }
     @GetMapping("/subjects/{parentId}")
     public ResponseEntity getSubjectListByIds(@PathVariable String parentId, @RequestParam String parentSecondId){
         return subjectsService.getSubjectListByIds(parentId, parentSecondId)!=null?ResponseEntity.ok(new ResultSucces(true,subjectsService.getSubjectListByIds(parentId,parentSecondId))):new ResponseEntity(new Result(false,"not found"), HttpStatus.BAD_REQUEST);
-    }
-    @PostMapping("/blok")
-    public ResponseEntity createBlokWithSubjectIdsAndUserId(@RequestBody BlokRequest blokRequest, HttpServletRequest httpServletRequest){
-        User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(httpServletRequest))).get();
-        return user!=null?ResponseEntity.ok(new ResultSucces(true, blokService.create(user.getId(),blokRequest))):new ResponseEntity(new Result(false,"not authentication"), HttpStatus.BAD_REQUEST);
-    }
-    @GetMapping("/blok/process")
-    public ResponseEntity isProcessingBlogByUserId(HttpServletRequest httpServletRequest){
-        User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(httpServletRequest))).get();
-        return blokService.isProcessingBlokWithUserId(user.getId())!=null?ResponseEntity.ok(new ResultSucces(true, blokService.isProcessingBlokWithUserId(user.getId()))):new ResponseEntity(new Result(false,"not processing user"),HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/file/preview/{hashId}")
@@ -91,19 +93,12 @@ public class ClientController {
                         uploadFolder,
                         attachment.getUploadPath())));
     }
-    @GetMapping("/verifying/{blokId}")
-    public ResponseEntity finishedTest( @PathVariable String blokId, HttpServletRequest request){
-        User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(request))).get();
-        if (user==null){
-            return ResponseEntity.ok(new Result(false,"token is invalid"));
-        }
-        return ResponseEntity.ok(blokService.verifyAllTests(user.getId(), blokId));
-    }
 
     @GetMapping("/route/{id}")
     public ResponseEntity getRouteById(@PathVariable String id){
         return  routeService.getOneById(id)!=null?ResponseEntity.ok(new ResultSucces(true, routeService.getOneById(id))):new ResponseEntity(new Result(false,"not found route"),HttpStatus.BAD_REQUEST);
     }
+
     @GetMapping("/routes/{subFirstId}")
     public ResponseEntity getRoutesByFirstSubjectIdAndSecondSubjectIdAndThirdSubjectId(@PathVariable String subFirstId, @RequestParam(defaultValue = "") String subjectSecondId, @RequestParam(defaultValue = "") String subjectThirdId){
         if (subjectSecondId.equals("")){
@@ -116,19 +111,20 @@ public class ClientController {
     }
 
     @GetMapping("/history/all")
-    public ResponseEntity getHistoryByPagealable(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+    public ResponseEntity getHistoryByPagealable(
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         return  ResponseEntity.ok(new ResultSucces(true, historyService.getAllByPages(page, size)));
     }
     @GetMapping("/route/all")
     public ResponseEntity getAllRoutes(){
         return  ResponseEntity.ok(new ResultSucces(true, routeService.getAllRouteList()));
     }
-    @PostMapping("/blok/{questionId}")
-    public ResponseEntity saveOneAnswerByQuestionIdAndSelectedAnswerId(@PathVariable String questionId, @RequestParam String selectedId, HttpServletRequest request){
-        User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(request))).get();
-        if (user==null){
-            return ResponseEntity.ok(new Result(false,"token is invalid"));
-        }
-        return blokService.saveAnswerReq(user, questionId, selectedId)?ResponseEntity.ok(new Result(true, "saqlandi")):new ResponseEntity(new Result(false, "saqlanmadi"), HttpStatus.BAD_REQUEST);
+
+
+    @GetMapping("/teacher/all")
+    public ResponseEntity getAllteacherByPage( @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,teacherService.getAllTeachers(page,size)));
     }
+
 }

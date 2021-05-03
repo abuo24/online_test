@@ -11,4 +11,5 @@ public class ReqGroup {
 
     private String name;
 
+    private String courseId;
 }

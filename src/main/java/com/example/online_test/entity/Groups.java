@@ -29,6 +29,10 @@ public class Groups implements Serializable {
     private String name;
 
 
+    @ManyToOne
+    private Course course;
+
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss",timezone = "Asia/Tashkent")
     @Column(nullable = false, updatable = false)
     @CreationTimestamp

@@ -5,23 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-@Data
-@NoArgsConstructor
+
 @AllArgsConstructor
-public class ReqCourse {
+@NoArgsConstructor
+@Data
+public class BlogRequest {
 
     private String titleUz;
 
     private String titleRu;
 
-    private Integer durationTime;
+    private String contentUz;
 
-    private String descriptionUz;
-
-    private String descriptionRu;
+    private String contentRu;
 
     private String hashId;
-
-
 
 }

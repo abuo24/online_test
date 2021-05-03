@@ -2,6 +2,8 @@ package com.example.online_test.repository;
 
 import com.example.online_test.entity.Groups;
 import com.example.online_test.entity.Route;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,7 @@ import java.util.List;
 public interface RouteRepository extends JpaRepository<Route, String> {
 
     List<Route> findAllBySubjectFirstId(String id);
+    Page<Route> findAllByOrderByCreateAtDesc(Pageable pageable);
     List<Route> findAllBySubjectFirstIdAndSubjectSecondId(String id, String id2);
     List<Route> findAllBySubjectFirstIdAndSubjectSecondIdAndSubjectThirdId(String id, String id2, String id3);
 }

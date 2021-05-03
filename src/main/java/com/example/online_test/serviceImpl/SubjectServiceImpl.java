@@ -2,6 +2,7 @@ package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.SubHelp;
 import com.example.online_test.entity.Subjects;
+import com.example.online_test.entity.Teacher;
 import com.example.online_test.payload.SubRequest;
 import com.example.online_test.payload.SubjectRequest;
 import com.example.online_test.payload.SubjectRequestCreate;
@@ -10,10 +11,15 @@ import com.example.online_test.repository.SubHelpRepository;
 import com.example.online_test.repository.SubjectsRepository;
 import com.example.online_test.service.SubjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SubjectServiceImpl implements SubjectsService {
@@ -78,6 +84,23 @@ public class SubjectServiceImpl implements SubjectsService {
     public List<Subjects> subjectsList() {
         try {
             return subjectsRepository.findAll();
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    @Override
+    public Map subjectsListByPage(int page,int size) {
+        try {
+            List<Subjects> tutorials = new ArrayList<>();
+            Pageable paging = PageRequest.of(page, size);
+            Page<Subjects> pageTuts = subjectsRepository.findAll(paging);
+            tutorials = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("subjects", tutorials);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return response;
         } catch (Exception e) {
         }
         return null;

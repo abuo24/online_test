@@ -3,6 +3,7 @@ package com.example.online_test.serviceImpl;
 import com.example.online_test.entity.Groups;
 import com.example.online_test.entity.User;
 import com.example.online_test.payload.ReqGroup;
+import com.example.online_test.repository.CourseRepository;
 import com.example.online_test.repository.GroupsRepository;
 import com.example.online_test.repository.UserRepository;
 import com.example.online_test.service.GroupService;
@@ -19,6 +20,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     GroupsRepository groupsRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -67,6 +71,7 @@ public class GroupServiceImpl implements GroupService {
         try {
             Groups groups = new Groups();
             groups.setName(reqGroup.getName());
+            groups.setCourse(courseRepository.getOne(reqGroup.getCourseId()));
             return groupsRepository.save(groups) != null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -83,6 +88,7 @@ public class GroupServiceImpl implements GroupService {
             }
             Groups groups = byId;
             groups.setId(id);
+            groups.setCourse(courseRepository.getOne(reqGroup.getCourseId()));
             groups.setName(reqGroup.getName());
             return groupsRepository.save(groups) != null;
         }catch (Exception e){

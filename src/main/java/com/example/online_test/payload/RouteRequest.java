@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class RouteRequest {
     private String name;
 
+    private int code;
+
     private String subjectFirst;
 
     private String subjectSecond;

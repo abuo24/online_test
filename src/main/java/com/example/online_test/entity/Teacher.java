@@ -14,19 +14,19 @@ import javax.persistence.Entity;
 @Entity
 public class Teacher extends User {
 
-    @Column()
+    @Column
     private String telegram;
 
-    @Column()
+    @Column
     private String instagram;
 
-    @Column()
+    @Column
     private String facebook;
 
-    @Column()
+    @Column
     private String bioUz;
 
-    @Column()
+    @Column
     private String bioRu;
 
 }

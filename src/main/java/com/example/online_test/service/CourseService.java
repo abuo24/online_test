@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 
 public interface CourseService {
 
@@ -20,9 +22,7 @@ public interface CourseService {
 
     public HttpEntity<?> deleteCourse(String id);
 
-
-
-
+    public Map getCourseListByPage(int page, int size);
 
 
 }
