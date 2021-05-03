@@ -1,6 +1,7 @@
 package com.example.online_test.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class HistorySavedAnswers implements Serializable {
 
     @Id

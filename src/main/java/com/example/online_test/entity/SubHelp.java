@@ -1,6 +1,7 @@
 package com.example.online_test.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table
 @Entity
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class SubHelp implements Serializable {
 
     @Id

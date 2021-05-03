@@ -1,5 +1,6 @@
 package com.example.online_test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,8 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @Data
 @Entity
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Teacher extends User {
 
     @Column

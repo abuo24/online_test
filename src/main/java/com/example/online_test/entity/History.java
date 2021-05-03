@@ -1,6 +1,7 @@
 package com.example.online_test.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 @Table
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class History implements Serializable  {
     @Id
     @GenericGenerator(name = "uuid",strategy = "uuid2")
