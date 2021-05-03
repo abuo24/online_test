@@ -24,6 +24,7 @@ public class TeacherRequest {
     private String facebook;
     private String instagram;
     private String telegram;
+    private String hashId;
 
 
 }

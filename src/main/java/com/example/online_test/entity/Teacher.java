@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 
 @NoArgsConstructor
@@ -25,6 +26,9 @@ public class Teacher extends User {
 
     @Column
     private String bioUz;
+
+    @OneToOne
+    private Attachment avatar;
 
     @Column
     private String bioRu;

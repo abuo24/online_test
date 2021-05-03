@@ -6,10 +6,7 @@ import com.example.online_test.entity.User;
 import com.example.online_test.model.Result;
 import com.example.online_test.payload.ReqUser;
 import com.example.online_test.payload.TeacherRequest;
-import com.example.online_test.repository.GroupsRepository;
-import com.example.online_test.repository.RoleRepository;
-import com.example.online_test.repository.TeacherRepository;
-import com.example.online_test.repository.UserRepository;
+import com.example.online_test.repository.*;
 import com.example.online_test.service.TeacherService;
 import com.example.online_test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    AttachmentRepository attachmentRepository;
 
     @Autowired
     GroupsRepository groupsRepository;
@@ -67,6 +66,7 @@ public class TeacherServiceImpl implements TeacherService {
             user.setFacebook(reqUser.getFacebook());
             user.setInstagram(reqUser.getInstagram());
             user.setTelegram(reqUser.getTelegram());
+            user.setAvatar(attachmentRepository.findByHashId(reqUser.getHashId()));
             user.setRoles(roleRepository.findAllByName("ROLE_USER"));
             return teacherRepository.save(user) != null;
         } catch (Exception e) {
@@ -93,6 +93,7 @@ public class TeacherServiceImpl implements TeacherService {
                 user.setFacebook(reqUser.getFacebook());
                 user.setInstagram(reqUser.getInstagram());
                 user.setTelegram(reqUser.getTelegram());
+                user.setAvatar(attachmentRepository.findByHashId(reqUser.getHashId()));
                 return teacherRepository.save(user) != null;
             }
         } catch (Exception e) {
