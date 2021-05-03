@@ -57,7 +57,7 @@ public class AdminController {
     }
 
     @PostMapping("/subject/add")
-    public  ResponseEntity createSubject(@RequestBody SubjectRequest subjectRequest){
+    public  ResponseEntity createSubject(@RequestBody SubjectRequestCreate subjectRequest){
         return ResponseEntity.ok(new ResultSucces(true,subjectsService.create(subjectRequest)));
     }
     @PutMapping("/subject/{id}")

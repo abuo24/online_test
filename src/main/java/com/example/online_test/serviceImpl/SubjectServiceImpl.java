@@ -2,7 +2,9 @@ package com.example.online_test.serviceImpl;
 
 import com.example.online_test.entity.SubHelp;
 import com.example.online_test.entity.Subjects;
+import com.example.online_test.payload.SubRequest;
 import com.example.online_test.payload.SubjectRequest;
+import com.example.online_test.payload.SubjectRequestCreate;
 import com.example.online_test.repository.QuestionRepository;
 import com.example.online_test.repository.SubHelpRepository;
 import com.example.online_test.repository.SubjectsRepository;
@@ -25,7 +27,7 @@ public class SubjectServiceImpl implements SubjectsService {
     SubHelpRepository subHelpRepository;
 
     @Override
-    public Subjects create(SubjectRequest subjectRequest) {
+    public Subjects create(SubjectRequestCreate subjectRequest) {
         try {
             Subjects subject = new Subjects();
             SubHelp subHelp = new SubHelp();
@@ -34,14 +36,8 @@ public class SubjectServiceImpl implements SubjectsService {
             }
             subject.setNameRu(subjectRequest.getNameRu());
             subject.setNameUz(subjectRequest.getNameUz());
-            subject.setParentsFirst(subjectsRepository.findAllById(subjectRequest.getParentsFirst()));
-            List<SubHelp> subHelps = new ArrayList<>();
-            subjectRequest.getParentsSecond().forEach(item -> {
-                subHelp.setParentsId(item.getId());
-                subHelp.setChildless(item.getChildren());
-                subHelps.add(subHelpRepository.save(subHelp));
-            });
-            subject.setParentsSecond(subHelps);
+            subject.setParentsFirst(null);
+            subject.setParentsSecond(null);
             return subjectsRepository.save(subject);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -56,7 +52,7 @@ public class SubjectServiceImpl implements SubjectsService {
             if (subject == null) {
                 return null;
             }
-            SubHelp subHelp = new SubHelp();
+            SubHelp subHelp = null;
             if (subjectRequest == null) {
                 return null;
             }
@@ -64,11 +60,12 @@ public class SubjectServiceImpl implements SubjectsService {
             subject.setNameUz(subjectRequest.getNameUz());
             subject.setParentsFirst(subjectsRepository.findAllById(subjectRequest.getParentsFirst()));
             List<SubHelp> subHelps = new ArrayList<>();
-            subjectRequest.getParentsSecond().forEach(item -> {
+            for (SubRequest item : subjectRequest.getParentsSecond()) {
+                subHelp = new SubHelp();
                 subHelp.setParentsId(item.getId());
                 subHelp.setChildless(item.getChildren());
                 subHelps.add(subHelpRepository.save(subHelp));
-            });
+            }
             subject.setParentsSecond(subHelps);
             return subjectsRepository.save(subject);
         } catch (Exception e) {
