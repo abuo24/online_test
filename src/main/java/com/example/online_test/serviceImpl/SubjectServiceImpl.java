@@ -43,7 +43,7 @@ public class SubjectServiceImpl implements SubjectsService {
             subject.setNameUz(subjectRequest.getNameUz());
             subject.setParentsFirst(null);
             subject.setParentsSecond(null);
-            return subjectsRepository.save(subject)!=null;
+            return subjectsRepository.save(subject) != null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -72,7 +72,7 @@ public class SubjectServiceImpl implements SubjectsService {
                 subHelps.add(subHelpRepository.save(subHelp));
             }
             subject.setParentsSecond(subHelps);
-            return subjectsRepository.save(subject)!=null;
+            return subjectsRepository.save(subject) != null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -92,8 +92,8 @@ public class SubjectServiceImpl implements SubjectsService {
                 subjectResponse.setId(tutorials.get(i).getId());
                 subjectResponse.setNameRu(tutorials.get(i).getNameRu());
                 subjectResponse.setNameUz(tutorials.get(i).getNameUz());
-                for (int j = 0; j < tutorials.get(i).getParentsFirst().size() ; j++) {
-                    subjectResHelpList = new ArrayList<>();
+                subjectResHelpList = new ArrayList<>();
+                for (int j = 0; j < tutorials.get(i).getParentsFirst().size(); j++) {
                     subjectResHelp = new SubjectResHelp();
                     subjectResHelp.setId(tutorials.get(i).getParentsFirst().get(j).getId());
                     subjectResHelp.setNameRu(tutorials.get(i).getParentsFirst().get(j).getNameRu());
@@ -108,8 +108,9 @@ public class SubjectServiceImpl implements SubjectsService {
         }
         return null;
     }
+
     @Override
-    public Map subjectsListByPage(int page,int size) {
+    public Map subjectsListByPage(int page, int size) {
         try {
             List<Subjects> tutorials = new ArrayList<>();
             Pageable paging = PageRequest.of(page, size);
@@ -124,8 +125,8 @@ public class SubjectServiceImpl implements SubjectsService {
                 subjectResponse.setId(tutorials.get(i).getId());
                 subjectResponse.setNameRu(tutorials.get(i).getNameRu());
                 subjectResponse.setNameUz(tutorials.get(i).getNameUz());
-                for (int j = 0; j < tutorials.get(i).getParentsFirst().size() ; j++) {
-                    subjectResHelpList = new ArrayList<>();
+                subjectResHelpList = new ArrayList<>();
+                for (int j = 0; j < tutorials.get(i).getParentsFirst().size(); j++) {
                     subjectResHelp = new SubjectResHelp();
                     subjectResHelp.setId(tutorials.get(i).getParentsFirst().get(j).getId());
                     subjectResHelp.setNameRu(tutorials.get(i).getParentsFirst().get(j).getNameRu());
@@ -153,19 +154,18 @@ public class SubjectServiceImpl implements SubjectsService {
             SubjectResponse subjectResponse = new SubjectResponse();
             SubjectResHelp subjectResHelp = new SubjectResHelp();
             List<SubjectResHelp> subjectResHelpList = new ArrayList<>();
-                subjectResponse.setId(tutorials.getId());
-                subjectResponse.setNameRu(tutorials.getNameRu());
-                subjectResponse.setNameUz(tutorials.getNameUz());
-                for (int j = 0; j < tutorials.getParentsFirst().size() ; j++) {
-                    subjectResHelpList = new ArrayList<>();
-                    subjectResHelp = new SubjectResHelp();
-                    subjectResHelp.setId(tutorials.getParentsFirst().get(j).getId());
-                    subjectResHelp.setNameRu(tutorials.getParentsFirst().get(j).getNameRu());
-                    subjectResHelp.setNameUz(tutorials.getParentsFirst().get(j).getNameUz());
-                    subjectResHelpList.add(subjectResHelp);
-                }
-                subjectResponse.setParentsFirst(subjectResHelpList);
-           return subjectResponse;
+            subjectResponse.setId(tutorials.getId());
+            subjectResponse.setNameRu(tutorials.getNameRu());
+            subjectResponse.setNameUz(tutorials.getNameUz());
+            for (int j = 0; j < tutorials.getParentsFirst().size(); j++) {
+                subjectResHelp = new SubjectResHelp();
+                subjectResHelp.setId(tutorials.getParentsFirst().get(j).getId());
+                subjectResHelp.setNameRu(tutorials.getParentsFirst().get(j).getNameRu());
+                subjectResHelp.setNameUz(tutorials.getParentsFirst().get(j).getNameUz());
+                subjectResHelpList.add(subjectResHelp);
+            }
+            subjectResponse.setParentsFirst(subjectResHelpList);
+            return subjectResponse;
         } catch (Exception e) {
         }
         return null;
@@ -175,13 +175,13 @@ public class SubjectServiceImpl implements SubjectsService {
     public List<SubjectResponse> getSubjectListByIds(String id1, String id2) {
         try {
             Subjects subjects = subjectsRepository.getOne(id1);
-            if (subjects==null){
+            if (subjects == null) {
                 return null;
             }
             List<Subjects> tutorials = new ArrayList<>();
             List<SubHelp> subHelps = subjects.getParentsSecond();
-            subHelps.forEach(item->{
-                if (item.getParentsId().equals(id2)){
+            subHelps.forEach(item -> {
+                if (item.getParentsId().equals(id2)) {
                     tutorials.addAll(subjectsRepository.findAllById(item.getChildless()));
                 }
             });
@@ -191,11 +191,11 @@ public class SubjectServiceImpl implements SubjectsService {
             List<SubjectResHelp> subjectResHelpList = new ArrayList<>();
             for (int i = 0; i < tutorials.size(); i++) {
                 subjectResponse = new SubjectResponse();
+                subjectResHelpList = new ArrayList<>();
                 subjectResponse.setId(tutorials.get(i).getId());
                 subjectResponse.setNameRu(tutorials.get(i).getNameRu());
                 subjectResponse.setNameUz(tutorials.get(i).getNameUz());
-                for (int j = 0; j < tutorials.get(i).getParentsFirst().size() ; j++) {
-                    subjectResHelpList = new ArrayList<>();
+                for (int j = 0; j < tutorials.get(i).getParentsFirst().size(); j++) {
                     subjectResHelp = new SubjectResHelp();
                     subjectResHelp.setId(tutorials.get(i).getParentsFirst().get(j).getId());
                     subjectResHelp.setNameRu(tutorials.get(i).getParentsFirst().get(j).getNameRu());
