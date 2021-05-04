@@ -76,6 +76,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         if (file.delete()) {
             attachmentRepository.delete(attachment);
         }
+        attachmentRepository.delete(attachment);
     }
 
     private String getExt(String fileName) {

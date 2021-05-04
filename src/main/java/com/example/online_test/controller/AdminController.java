@@ -63,8 +63,11 @@ public class AdminController {
     }
 
     @PostMapping("/subject/add")
-    public  ResponseEntity createSubject(@RequestBody SubjectRequestCreate subjectRequest){
-        return ResponseEntity.ok(new ResultSucces(true,subjectsService.create(subjectRequest)));
+    public  ResponseEntity<Result> createSubject(@RequestBody SubjectRequestCreate subjectRequest){
+        if (subjectsService.create(subjectRequest)){
+            return ResponseEntity.ok(new Result(true,"saved"));
+        }
+        return new ResponseEntity(new Result(true,"not saved"), HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/subject/all")
     public  ResponseEntity getAllSubjectsByPage( @RequestParam(defaultValue = "0") int page,
@@ -73,7 +76,7 @@ public class AdminController {
     }
     @PutMapping("/subject/{id}")
     public  ResponseEntity editSubject(@PathVariable String id,@RequestBody SubjectRequest subjectRequest) {
-        return ResponseEntity.ok(new ResultSucces(true, subjectsService.edit(id, subjectRequest)));
+        return subjectsService.edit(id, subjectRequest)?ResponseEntity.ok(new Result(true,"saved")):(new ResponseEntity(new Result(false, "not save"), HttpStatus.BAD_REQUEST));
     }
     @DeleteMapping("/subject/{id}")
     public  ResponseEntity deleteSubject(@PathVariable String id){
