@@ -132,20 +132,23 @@ public class AdminController {
         return ResponseEntity.ok(multipartFile.getOriginalFilename()+" file saqlandi");
     }
 
+
     @PostMapping("/route/add")
-    public ResponseEntity createRoute(@RequestBody RouteRequest routeRequest){
-        return ResponseEntity.ok(new ResultSucces(true,routeService.create(routeRequest)));
+    public ResponseEntity createRoute(@RequestBody RouteRequest routeRequest) {
+        return  routeService.create(routeRequest)?ResponseEntity.ok(new ResultSucces(true,"saved")):(new ResponseEntity(new Result(false, "not save"), HttpStatus.BAD_REQUEST));
     }
 
     @GetMapping("/route/all")
     public ResponseEntity getRoutesByPage(@RequestParam(defaultValue = "0") int page,
-                                          @RequestParam(defaultValue = "10") int size){
-        return ResponseEntity.ok(new ResultSucces(true,routeService.getAllRouteListByPagealable(page, size)));
+                                          @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(new ResultSucces(true, routeService.getAllRouteListByPagealable(page, size)));
     }
+
     @PutMapping("/route/{routeId}")
-    public ResponseEntity editRoute(@PathVariable String routeId,@RequestBody RouteRequest routeRequest){
-        return ResponseEntity.ok(new ResultSucces(true,routeService.edit(routeId, routeRequest)));
+    public ResponseEntity editRoute(@PathVariable String routeId, @RequestBody RouteRequest routeRequest) {
+        return routeService.edit(routeId, routeRequest)?ResponseEntity.ok(new ResultSucces(true,"saved")):(new ResponseEntity(new Result(false, "not save"), HttpStatus.BAD_REQUEST));
     }
+
     @DeleteMapping("/route/{routeId}")
     public ResponseEntity delRoute(@PathVariable String routeId){
         return routeService.delete(routeId)?ResponseEntity.ok(new ResultSucces(true,"deleted")):new ResponseEntity(new Result(false, "not deleted"), HttpStatus.BAD_REQUEST);
