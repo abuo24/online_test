@@ -116,6 +116,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<Question> getAllQuestionsListBySubjectId(String subjectId) {
+        try {
+            return questionRepository.findAllBySubjectsId(subjectId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public Map getAllQuestionsListByCreateDesc(int page, int size) {
         try {
             List<Question> tutorials = new ArrayList<>();
@@ -128,15 +138,6 @@ public class QuestionServiceImpl implements QuestionService {
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
             return response;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-    @Override
-    public List<Question> getAllQuestionsListByCreateDesc() {
-        try {
-            return questionRepository.findAllByOrderByCreateAtDesc();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

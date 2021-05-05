@@ -102,8 +102,9 @@ public class AdminController {
     public  ResponseEntity getAllQuestionsBySubjectId(@PathVariable String subjectId){
         return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListBySubjectId(subjectId))); }
     @GetMapping("/question/all")
-    public  ResponseEntity getAllQuestions(){
-        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListByCreateDesc()));
+    public  ResponseEntity getAllQuestions(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(new ResultSucces(true,questionService.getAllQuestionsListByCreateDesc(page,size)));
     }
     @DeleteMapping("/answer/{id}")
     public  ResponseEntity deleteAnswer(@PathVariable String id){
