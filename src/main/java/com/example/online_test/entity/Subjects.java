@@ -11,12 +11,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
 @Entity
-
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 public class Subjects implements Serializable {
@@ -39,5 +37,49 @@ public class Subjects implements Serializable {
     @ManyToMany
     @JsonIgnore
     private List<Subjects> parentsFirst;
+
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNameUz() {
+        return nameUz;
+    }
+
+    public void setNameUz(String nameUz) {
+        this.nameUz = nameUz;
+    }
+
+    public String getNameRu() {
+        return nameRu;
+    }
+
+    public void setNameRu(String nameRu) {
+        this.nameRu = nameRu;
+    }
+
+    public List<SubHelp> getParentsSecond() {
+        return parentsSecond;
+    }
+
+    public void setParentsSecond(List<SubHelp> parentsSecond) {
+        this.parentsSecond = parentsSecond;
+    }
+
+    @JsonIgnore
+    public List<Subjects> getParentsFirst() {
+        return parentsFirst;
+    }
+
+    public void setParentsFirst(List<Subjects> parentsFirst) {
+        this.parentsFirst = parentsFirst;
+    }
+
 
 }
