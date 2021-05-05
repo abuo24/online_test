@@ -133,7 +133,7 @@ public class QuestionServiceImpl implements QuestionService {
             Page<Question> pageTuts = questionRepository.findAllByOrderByCreateAtDesc(paging);
             tutorials = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
-            response.put("subjects", tutorials);
+            response.put("questions", tutorials);
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
