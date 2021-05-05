@@ -14,6 +14,7 @@ public interface QuestionRepository extends JpaRepository<Question, String> {
 
     List<Question> findAllBySubjectsId(String subjectId);
     List<Question> findAllByOrderByCreateAtDesc();
+    Page<Question> findAllByOrderByCreateAtDesc(Pageable pageable);
     List<Question> findAllBySubjectsId(String subjectId,
                                        Pageable pageable);
     Long countAllBySubjectsId(String subjectId);

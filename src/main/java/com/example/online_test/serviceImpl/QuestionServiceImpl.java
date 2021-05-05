@@ -10,12 +10,15 @@ import com.example.online_test.repository.SubjectsRepository;
 import com.example.online_test.service.AnswerService;
 import com.example.online_test.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -113,9 +116,18 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> getAllQuestionsListBySubjectId(String subjectId) {
+    public Map getAllQuestionsListByCreateDesc(int page, int size) {
         try {
-            return questionRepository.findAllBySubjectsId(subjectId);
+            List<Question> tutorials = new ArrayList<>();
+            Pageable paging = PageRequest.of(page, size);
+            Page<Question> pageTuts = questionRepository.findAllByOrderByCreateAtDesc(paging);
+            tutorials = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("subjects", tutorials);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            return response;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
