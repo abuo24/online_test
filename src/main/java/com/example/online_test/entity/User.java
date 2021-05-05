@@ -39,7 +39,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique=true)
     private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
