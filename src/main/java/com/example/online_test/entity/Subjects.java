@@ -37,6 +37,7 @@ public class Subjects implements Serializable {
     private List<SubHelp> parentsSecond;
 
     @ManyToMany
+    @JsonIgnore
     private List<Subjects> parentsFirst;
 
 }
