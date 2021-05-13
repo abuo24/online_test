@@ -40,10 +40,14 @@ public class BlokServiceImpl implements BlokService {
     HistorySavedAnswersRepository historySavedAnswersRepository;
 
     @Override
-    public Blok create(String userId, BlokRequest blokRequest) {
+    public Map create(String userId, BlokRequest blokRequest) {
         try {
             Blok blok = new Blok();
             Subjects subjects = subjectsRepository.getOne(blokRequest.getBlokFirstId());
+            Map mapq = isProcessingBlokWithUserId(userId);
+            if (mapq!=null){
+                return mapq;
+            }
             subjects.setParentsFirst(null);
             subjects.setParentsSecond(null);
             blok.setBlokFirst(subjects);
@@ -137,8 +141,9 @@ public class BlokServiceImpl implements BlokService {
 //            blokN.setBlokSecond(subjects1);
 //            blokN.setBlokThird(subjects2);
 
-
-            return blokN;
+            Map<String, Object> map = new HashMap<>();
+            map.put("blok", blokN);
+            return map;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

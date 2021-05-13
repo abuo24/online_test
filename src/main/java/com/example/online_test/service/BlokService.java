@@ -8,7 +8,7 @@ import com.example.online_test.payload.BlokRequest;
 import java.util.Map;
 
 public interface BlokService {
-    public Blok create(String userId, BlokRequest blokRequest);
+    public Map create(String userId, BlokRequest blokRequest);
     public Map isProcessingBlokWithUserId(String userId);
     public History verifyAllTests(String userId, String blokId);
     public boolean saveAnswerReq(User user, String qId, String correctAnswerId);
