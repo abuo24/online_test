@@ -110,6 +110,7 @@ public class AttachmentServiceImpl implements AttachmentService {
                         dbFile.getName(),
                         fileDownloadUri,
                         dbFile.getContentType(),
+                        dbFile.getHashId(),
                         dbFile.getCreateAt(),
                         dbFile.getFileSize());
             }).collect(Collectors.toList());

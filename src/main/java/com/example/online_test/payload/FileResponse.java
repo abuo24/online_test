@@ -13,6 +13,7 @@ public class FileResponse {
   private String name;
   private String url;
   private String type;
+  private String hashId;
   private Date date;
   private long size;
 }
