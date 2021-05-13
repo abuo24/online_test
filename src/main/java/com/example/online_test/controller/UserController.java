@@ -67,5 +67,4 @@ public class UserController {
         User user = userRepository.findByPhoneNumber(jwtTokenProvider.getUser(jwtTokenProvider.resolveToken(httpServletRequest))).get();
         return blokService.isProcessingBlokWithUserId(user.getId())!=null?ResponseEntity.ok(new ResultSucces(true, blokService.isProcessingBlokWithUserId(user.getId()))):new ResponseEntity(new Result(false,"not processing user"),HttpStatus.OK);
     }
-
 }
