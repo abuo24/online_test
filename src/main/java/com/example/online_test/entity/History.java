@@ -55,7 +55,7 @@ public class History implements Serializable  {
 
     private String spentTime;
 
-    @OneToMany
+    @ManyToMany
     private List<HistorySavedAnswers> historySavedAnswers;
 
     private int countThird;

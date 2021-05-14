@@ -187,7 +187,8 @@ public class BlokServiceImpl implements BlokService {
                                     history.setCountFirst(1+history.getCountFirst());
                                 }
                             }
-                            savedAnswers = historySavedAnswersRepository.getOne(savedAnswersList.get(i).getId());
+                            savedAnswers=new HistorySavedAnswers();
+                            savedAnswers = historySavedAnswersRepository.getOne(savedAnswersList.get(i1).getId());
                             savedAnswers.setSelectedId(answer.getId());
                             savedAnswersList.remove(i1);
                             savedAnswersList.add(historySavedAnswersRepository.save(savedAnswers));
@@ -205,7 +206,7 @@ public class BlokServiceImpl implements BlokService {
                         savedAnswersList.add(historySavedAnswersRepository.save(savedAnswers));
                     }
                 };
-              }
+            }
             isHave=false;
             double a = (history.getCountFirst() * 100) / 30;
             history.setPercentFirst(a);
@@ -226,7 +227,9 @@ public class BlokServiceImpl implements BlokService {
                                     history.setCountSecond(1+history.getCountSecond());
                                 }
                             }
-                            savedAnswers = historySavedAnswersRepository.getOne(savedAnswersList.get(i).getId());
+
+                            savedAnswers=new HistorySavedAnswers();
+                            savedAnswers = historySavedAnswersRepository.getOne(savedAnswersList.get(i1).getId());
                             savedAnswers.setSelectedId(answer.getId());
                             savedAnswersList.remove(i1);
                             savedAnswersList.add(historySavedAnswersRepository.save(savedAnswers));
@@ -266,7 +269,9 @@ public class BlokServiceImpl implements BlokService {
                                     history.setCountThird(1+history.getCountThird());
                                 }
                             }
-                            savedAnswers = historySavedAnswersRepository.getOne(savedAnswersList.get(i).getId());
+
+                            savedAnswers=new HistorySavedAnswers();
+                            savedAnswers = historySavedAnswersRepository.getOne(savedAnswersList.get(i1).getId());
                             savedAnswers.setSelectedId(answer.getId());
                             savedAnswersList.remove(i1);
                             savedAnswersList.add(historySavedAnswersRepository.save(savedAnswers));
@@ -311,8 +316,8 @@ public class BlokServiceImpl implements BlokService {
                 long second1 = 60-(b-3600*hour-minuet*60);
                 history.setSpentTime("0"+hour1+":"+minuet1+":"+second1);
             }
-            historyRepository.save(history);
-            return true;
+            ;
+            return historyRepository.save(history)!=null;
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
