@@ -84,26 +84,23 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course editCourse(ReqCourse reqCourse, String id) {
-
         try {
-            Optional<Course> byId = courseRepository.findById(id);
-            if (!byId.isPresent()) {
+            Course course= courseRepository.getOne(id);
+            if (course==null) {
                 return null;
             }
-            Course course = byId.get();
             course.setTitleUz(reqCourse.getTitleUz());
             course.setTitleRu(reqCourse.getTitleRu());
             course.setDescriptionUz(reqCourse.getDescriptionUz());
             course.setDescriptionRu(reqCourse.getDescriptionRu());
-            course.setId(id);
             course.setDurationTime(reqCourse.getDurationTime());
 
-            if (course.getAttachment() != null) {
-                attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
+            if (course.getAttachment() != null && !course.getAttachment().getHashId().equals(reqCourse.getHashId())) {
+                attachmentService.delete(attachmentRepository.getOne(course.getAttachment().getHashId()).getHashId());
             }
-            if (!reqCourse.getHashId().trim().equals("") || reqCourse.getHashId() != null) {
-                attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
-                course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
+            if (!reqCourse.getHashId().trim().equals("") && reqCourse.getHashId() != null) {
+                attachmentService.delete(attachmentRepository.getOne(course.getAttachment().getHashId()).getHashId());
+                course.setAttachment(attachmentService.findByHashId(reqCourse.getHashId()));
             }
 
             return courseRepository.save(course);
