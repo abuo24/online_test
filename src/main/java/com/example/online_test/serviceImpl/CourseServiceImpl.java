@@ -85,8 +85,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course editCourse(ReqCourse reqCourse, String id) {
         try {
-            Course course= courseRepository.getOne(id);
-            if (course==null) {
+            Course course = courseRepository.getOne(id);
+            if (course == null) {
                 return null;
             }
             course.setTitleUz(reqCourse.getTitleUz());
@@ -98,9 +98,12 @@ public class CourseServiceImpl implements CourseService {
             if (course.getAttachment() != null && !course.getAttachment().getHashId().equals(reqCourse.getHashId())) {
                 attachmentService.delete(attachmentRepository.getOne(course.getAttachment().getHashId()).getHashId());
             }
-            if (!reqCourse.getHashId().trim().equals("") && reqCourse.getHashId() != null) {
-                attachmentService.delete(attachmentRepository.getOne(course.getAttachment().getHashId()).getHashId());
-                course.setAttachment(attachmentService.findByHashId(reqCourse.getHashId()));
+
+            if (!reqCourse.getHashId().equals("")) {
+                if (reqCourse.getHashId() != null) {
+                    attachmentService.delete(attachmentRepository.getOne(course.getAttachment().getHashId()).getHashId());
+                    course.setAttachment(attachmentService.findByHashId(reqCourse.getHashId()));
+                }
             }
 
             return courseRepository.save(course);
