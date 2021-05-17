@@ -20,7 +20,7 @@ public interface CourseService {
 
     public HttpEntity<?> editCourse(ReqCourse reqCourse, String id);
 
-    public HttpEntity<?> deleteCourse(String id);
+    public boolean deleteCourse(String id);
 
     public Map getCourseListByPage(int page, int size);
 

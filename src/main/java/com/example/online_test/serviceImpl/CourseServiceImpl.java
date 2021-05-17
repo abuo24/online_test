@@ -83,7 +83,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public HttpEntity<?> editCourse(ReqCourse reqCourse, String id) {
-        Optional<Course> byId = courseRepository.findById(id);
+
+        try {
+            Optional<Course> byId = courseRepository.findById(id);
         if (!byId.isPresent()){
             return new ResponseEntity<>("Course not found", HttpStatus.NOT_FOUND);
         }
@@ -94,18 +96,32 @@ public class CourseServiceImpl implements CourseService {
         course.setDescriptionRu(reqCourse.getDescriptionRu());
         course.setId(id);
         course.setDurationTime(reqCourse.getDurationTime());
-        attachmentService.delete(course.getAttachment().getHashId());
+        if (byId.get().getAttachment().getHashId()!=null||byId.get().getAttachment().getHashId().trim()!=""){
+            attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
+        }
         course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
         return new ResponseEntity<>(courseRepository.save(course), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
     @Override
-    public HttpEntity<?> deleteCourse(String id) {
-        Optional<Course> byId = courseRepository.findById(id);
-        if (!byId.isPresent()){
-            return new ResponseEntity<>("Course not found", HttpStatus.NOT_FOUND);
+    public boolean deleteCourse(String id) {
+        try {
+
+            Optional<Course> byId = courseRepository.findById(id);
+            if (!byId.isPresent()) {
+                return false;
+            }
+            if (byId.get().getAttachment().getHashId() != null || byId.get().getAttachment().getHashId().trim() != "") {
+                attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
+            }
+            courseRepository.delete(byId.get());
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        attachmentService.delete(byId.get().getAttachment().getHashId());
-        courseRepository.delete(byId.get());
-        return new ResponseEntity<>("Successfully deleted course", HttpStatus.NO_CONTENT);
+        return false;
     }
 }

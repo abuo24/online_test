@@ -76,6 +76,21 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public Teacher getOne(String id){
+
+        try {
+            Optional<Teacher> teacher = teacherRepository.findById(id);
+            if (teacher.get()==null){
+                return null;
+            }
+            return teacher.get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean editUser(TeacherRequest reqUser, String id) {
 
         try {

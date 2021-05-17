@@ -1,6 +1,7 @@
 package com.example.online_test.controller;
 
 import com.example.online_test.entity.Attachment;
+import com.example.online_test.entity.Teacher;
 import com.example.online_test.entity.User;
 import com.example.online_test.model.Result;
 import com.example.online_test.model.ResultSucces;
@@ -125,6 +126,12 @@ public class ClientController {
     public ResponseEntity getAllteacherByPage( @RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "10") int size){
         return ResponseEntity.ok(new ResultSucces(true,teacherService.getAllTeachers(page,size)));
+    }
+
+    @GetMapping("/teacher/{id}")
+    public ResponseEntity getTeacherById(@PathVariable String id){
+        Teacher teacher = teacherService.getOne(id);
+        return (teacher!=null?ResponseEntity.ok(new ResultSucces(true,teacher)):(new ResponseEntity(new Result(false,"something went wrong"), HttpStatus.BAD_REQUEST)));
     }
 
 }

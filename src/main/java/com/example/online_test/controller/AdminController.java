@@ -171,7 +171,11 @@ public class AdminController {
     }
     @DeleteMapping("/course/{id}")
     public HttpEntity<?> deleteCourse(@PathVariable String id){
-        return courseService.deleteCourse(id);
+        boolean isDelete = courseService.deleteCourse(id);
+        if (!isDelete){
+            return ResponseEntity.ok(new Result(false,"not deleted"));
+        }
+        return ResponseEntity.ok(new ResultSucces(true,"deleted"));
     }
 
     @PostMapping("/group/add")
