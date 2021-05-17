@@ -1,5 +1,6 @@
 package com.example.online_test.controller;
 
+import com.example.online_test.entity.Course;
 import com.example.online_test.model.ResultSucces;
 import com.example.online_test.model.Result;
 import com.example.online_test.payload.*;
@@ -160,8 +161,12 @@ public class AdminController {
         return courseService.addCourse(reqCourse);
     }
     @PutMapping("/course/{id}")
-    public HttpEntity<?> editCourse(@RequestBody ReqCourse reqCourse, @PathVariable String id){
-        return courseService.editCourse(reqCourse,id);
+    public ResponseEntity editCourse(@RequestBody ReqCourse reqCourse, @PathVariable String id){
+        Course course = courseService.editCourse(reqCourse,id);
+        if (course==null){
+            return new ResponseEntity(new Result(false, "not edited"), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        return ResponseEntity.ok(new ResultSucces(true, course));
     }
 
     @GetMapping("/course/all")

@@ -82,12 +82,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public HttpEntity<?> editCourse(ReqCourse reqCourse, String id) {
+    public Course editCourse(ReqCourse reqCourse, String id) {
 
         try {
             Optional<Course> byId = courseRepository.findById(id);
         if (!byId.isPresent()){
-            return new ResponseEntity<>("Course not found", HttpStatus.NOT_FOUND);
+            return null;
         }
         Course course = byId.get();
         course.setTitleUz(reqCourse.getTitleUz());
@@ -96,11 +96,13 @@ public class CourseServiceImpl implements CourseService {
         course.setDescriptionRu(reqCourse.getDescriptionRu());
         course.setId(id);
         course.setDurationTime(reqCourse.getDurationTime());
-        if (byId.get().getAttachment().getHashId()!=null||byId.get().getAttachment().getHashId().trim()!=""){
+        if (reqCourse.getHashId().trim()!=""||reqCourse.getHashId() != null){
+            attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
+            course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
+        } else {
             attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
         }
-        course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
-        return new ResponseEntity<>(courseRepository.save(course), HttpStatus.OK);
+        return courseRepository.save(course);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -114,7 +116,7 @@ public class CourseServiceImpl implements CourseService {
             if (!byId.isPresent()) {
                 return false;
             }
-            if (byId.get().getAttachment().getHashId() != null || byId.get().getAttachment().getHashId().trim() != "") {
+            if (byId.get().getAttachment() != null) {
                 attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
             }
             courseRepository.delete(byId.get());

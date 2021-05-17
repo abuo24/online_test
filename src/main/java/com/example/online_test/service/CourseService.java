@@ -1,6 +1,7 @@
 package com.example.online_test.service;
 
 
+import com.example.online_test.entity.Course;
 import com.example.online_test.payload.ReqCourse;
 import com.example.online_test.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public interface CourseService {
 
     public HttpEntity<?> addCourse(ReqCourse reqCourse);
 
-    public HttpEntity<?> editCourse(ReqCourse reqCourse, String id);
+    public Course editCourse(ReqCourse reqCourse, String id);
 
     public boolean deleteCourse(String id);
 
