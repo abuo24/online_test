@@ -36,11 +36,12 @@ public class CourseServiceImpl implements CourseService {
     public HttpEntity<?> getCourseList() {
         try {
             return new ResponseEntity<>(courseRepository.findAll(), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return null;
     }
+
     @Override
     public Map getCourseListByPage(int page, int size) {
         try {
@@ -54,7 +55,7 @@ public class CourseServiceImpl implements CourseService {
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
             return response;
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return null;
@@ -63,7 +64,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public HttpEntity<?> getCourseById(String id) {
         Optional<Course> byId = courseRepository.findById(id);
-        if (!byId.isPresent()){
+        if (!byId.isPresent()) {
             return new ResponseEntity<>("Course not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(byId.get(), HttpStatus.OK);
@@ -71,7 +72,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public HttpEntity<?> addCourse(ReqCourse reqCourse) {
-        Course course=new Course();
+        Course course = new Course();
         course.setTitleUz(reqCourse.getTitleUz());
         course.setTitleRu(reqCourse.getTitleRu());
         course.setDurationTime(reqCourse.getDurationTime());
@@ -86,28 +87,32 @@ public class CourseServiceImpl implements CourseService {
 
         try {
             Optional<Course> byId = courseRepository.findById(id);
-        if (!byId.isPresent()){
-            return null;
-        }
-        Course course = byId.get();
-        course.setTitleUz(reqCourse.getTitleUz());
-        course.setTitleRu(reqCourse.getTitleRu());
-        course.setDescriptionUz(reqCourse.getDescriptionUz());
-        course.setDescriptionRu(reqCourse.getDescriptionRu());
-        course.setId(id);
-        course.setDurationTime(reqCourse.getDurationTime());
-        if (reqCourse.getHashId().trim()!=""||reqCourse.getHashId() != null){
-            attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
-            course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
-        } else {
-            attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
-        }
-        return courseRepository.save(course);
-        } catch (Exception e){
+            if (!byId.isPresent()) {
+                return null;
+            }
+            Course course = byId.get();
+            course.setTitleUz(reqCourse.getTitleUz());
+            course.setTitleRu(reqCourse.getTitleRu());
+            course.setDescriptionUz(reqCourse.getDescriptionUz());
+            course.setDescriptionRu(reqCourse.getDescriptionRu());
+            course.setId(id);
+            course.setDurationTime(reqCourse.getDurationTime());
+
+            if (course.getAttachment() != null) {
+                attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
+            }
+            if (!reqCourse.getHashId().trim().equals("") || reqCourse.getHashId() != null) {
+                attachmentService.delete(attachmentRepository.findById(byId.get().getAttachment().getHashId()).get().getHashId());
+                course.setAttachment(attachmentRepository.findByHashId(reqCourse.getHashId()));
+            }
+
+            return courseRepository.save(course);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
     @Override
     public boolean deleteCourse(String id) {
         try {
@@ -121,7 +126,7 @@ public class CourseServiceImpl implements CourseService {
             }
             courseRepository.delete(byId.get());
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
