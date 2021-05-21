@@ -38,13 +38,13 @@ public class Blok implements Serializable {
     @OneToOne
     private Subjects blokThird;
 
-    @OneToMany
+    @ManyToMany
     private List<Question> questionFirstList;
 
-    @OneToMany
+    @ManyToMany
     private List<Question> questionSecondList;
 
-    @OneToMany
+    @ManyToMany
     private List<Question> questionThirdList;
 
     @OneToOne
