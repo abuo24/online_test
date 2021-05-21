@@ -29,9 +29,4 @@ public class Answer implements Serializable {
 
     @Column(nullable = false, length = 10000)
     private String titleRu;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Question question;
-
 }
