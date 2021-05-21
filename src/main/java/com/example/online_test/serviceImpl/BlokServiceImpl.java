@@ -340,11 +340,21 @@ public class BlokServiceImpl implements BlokService {
             date1.setSeconds(localDateTime.getSecond());
             date1.setHours(localDateTime.getHour());
             date1.setMonth(localDateTime.getMonthValue() - 1);
+
             Blok blok = blokRepository.findByUserIdAndFinalDateLessThanAndFinalDateGreaterThan(userId, date1, date);
             if (blok == null) {
                 return null;
             }
-
+            List<Blok> blokList = blokRepository.findAllByUserId(userId);
+            boolean isHave = false;
+            for (int i = 0; i < blokList.size(); i++) {
+                if (blokList.get(i).getId()==blok.getId()){
+                    isHave = true;
+                }
+            }
+            if (!isHave){
+                return null;
+            }
             History history = historyRepository.findByUserIdAndBlokId(userId, blok.getId());
             Map<Object, Object> objectMap = new HashMap<>();
             objectMap.put("blok", blok);
@@ -375,8 +385,6 @@ public class BlokServiceImpl implements BlokService {
             if (blok == null) {
                 return null;
             }
-
-
             return blok;
         } catch (Exception e) {
             System.out.println(e.getMessage());
