@@ -348,7 +348,7 @@ public class BlokServiceImpl implements BlokService {
             List<Blok> blokList = blokRepository.findAllByUserId(userId);
             boolean isHave = false;
             for (int i = 0; i < blokList.size(); i++) {
-                if (blokList.get(i).getId()==blok.getId()){
+                if (blokList.get(i).getId().equals(blok.getId())){
                     isHave = true;
                     break;
                 }
