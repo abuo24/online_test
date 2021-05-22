@@ -350,6 +350,7 @@ public class BlokServiceImpl implements BlokService {
             for (int i = 0; i < blokList.size(); i++) {
                 if (blokList.get(i).getId()==blok.getId()){
                     isHave = true;
+                    break;
                 }
             }
             if (!isHave){
