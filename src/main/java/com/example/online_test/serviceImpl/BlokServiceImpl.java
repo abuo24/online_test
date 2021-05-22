@@ -326,7 +326,6 @@ public class BlokServiceImpl implements BlokService {
 
     @Override
     public Map isProcessingBlokWithUserId(String userId) {
-
         try {
             Date date = new Date();
             LocalDateTime localDateTime = date.toInstant()
@@ -341,17 +340,22 @@ public class BlokServiceImpl implements BlokService {
             date1.setHours(localDateTime.getHour());
             date1.setMonth(localDateTime.getMonthValue() - 1);
 
-            Blok blok = blokRepository.findByUserIdAndFinalDateLessThanAndFinalDateGreaterThan(userId, date1, date);
-            if (blok == null) {
+            List<Blok> bloks = blokRepository.findByUserIdAndFinalDateLessThanAndFinalDateGreaterThan(userId, date1, date);
+            if (bloks == null) {
                 return null;
             }
             List<Blok> blokList = blokRepository.findAllByUserId(userId);
             boolean isHave = false;
-            for (int i = 0; i < blokList.size(); i++) {
-                if (blokList.get(i).getId().equals(blok.getId())){
-                    isHave = true;
-                    break;
+            Blok blok = new Blok();
+            for (int j = 0; j < bloks.size(); j++) {
+                for (int i = 0; i < blokList.size(); i++) {
+                    if (blokList.get(i).getId().equals(bloks.get(j).getId())){
+                        isHave = true;
+                        blok = bloks.get(j);
+                        break;
+                    }
                 }
+
             }
             if (!isHave){
                 return null;
@@ -368,7 +372,6 @@ public class BlokServiceImpl implements BlokService {
     }
 
     private Blok isProcessingBlokWithUserIdgetBlok(String userId) {
-
         try {
             Date date = new Date();
             LocalDateTime localDateTime = date.toInstant()
@@ -382,17 +385,22 @@ public class BlokServiceImpl implements BlokService {
             date1.setSeconds(localDateTime.getSecond());
             date1.setHours(localDateTime.getHour());
             date1.setMonth(localDateTime.getMonthValue() - 1);
-            Blok blok = blokRepository.findByUserIdAndFinalDateLessThanAndFinalDateGreaterThan(userId, date1, date);
-            if (blok == null) {
+            List<Blok> bloks = blokRepository.findByUserIdAndFinalDateLessThanAndFinalDateGreaterThan(userId, date1, date);
+            if (bloks == null) {
                 return null;
             }
             List<Blok> blokList = blokRepository.findAllByUserId(userId);
             boolean isHave = false;
-            for (int i = 0; i < blokList.size(); i++) {
-                if (blokList.get(i).getId().equals(blok.getId())){
-                    isHave = true;
-                    break;
+            Blok blok = new Blok();
+            for (int j = 0; j < bloks.size(); j++) {
+                for (int i = 0; i < blokList.size(); i++) {
+                    if (blokList.get(i).getId().equals(bloks.get(j).getId())){
+                        isHave = true;
+                        blok = bloks.get(j);
+                        break;
+                    }
                 }
+
             }
             if (!isHave){
                 return null;

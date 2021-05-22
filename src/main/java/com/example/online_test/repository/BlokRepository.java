@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface BlokRepository extends JpaRepository<Blok, String> {
    List<Blok> findAllByUserId(String id);
-   Blok findByUserIdAndFinalDateLessThanAndFinalDateGreaterThan(String id,Date finalDate, Date startDate);
+   List<Blok> findByUserIdAndFinalDateLessThanAndFinalDateGreaterThan(String id,Date finalDate, Date startDate);
 }
