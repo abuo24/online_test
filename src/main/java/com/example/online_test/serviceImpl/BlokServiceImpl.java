@@ -386,6 +386,17 @@ public class BlokServiceImpl implements BlokService {
             if (blok == null) {
                 return null;
             }
+            List<Blok> blokList = blokRepository.findAllByUserId(userId);
+            boolean isHave = false;
+            for (int i = 0; i < blokList.size(); i++) {
+                if (blokList.get(i).getId().equals(blok.getId())){
+                    isHave = true;
+                    break;
+                }
+            }
+            if (!isHave){
+                return null;
+            }
             return blok;
         } catch (Exception e) {
             System.out.println(e.getMessage());
